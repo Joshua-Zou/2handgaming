@@ -170,8 +170,12 @@
   </section>
   <section class="u-align-left u-black u-clearfix u-section-3" id="sec-838e">
     <div class="u-clearfix u-sheet u-sheet-1">
-      <img class="u-image u-image-default u-image-1" src="/images/ScreenShot2021-06-13at12.41.24PM.png" alt=""
-        data-image-width="402" data-image-height="649">
+        <div class="u-image u-image-default u-image-1" style="background-image: url(/images/ScreenShot2021-06-13at12.41.24PM.png); width: 380px; height: 649px">
+        <div style="position: relative; top: 24%; left: 22%; background-color: #999999; width: 50%; height: 5%">
+          <p class="u-custom-font u-font-open-sans u-text" style="font-size: 20px;">Location: <span id="location" class="u-text-custom-color-3">loading...</span> 
+          </p>
+        </div>
+        </div>
       <h2 class="u-custom-font u-font-open-sans u-text u-text-1">In your <span
           class="u-text-custom-color-3">local</span> area.
       </h2>
@@ -188,17 +192,6 @@
       </p>
     </div>
   </footer>
-  <section class="u-backlink u-clearfix u-grey-80">
-    <a class="u-link" href="https://nicepage.com/website-templates" target="_blank">
-      <span>Website Templates</span>
-    </a>
-    <p class="u-text">
-      <span>created with</span>
-    </p>
-    <a class="u-link" href="https://nicepage.com/" target="_blank">
-      <span>Website Builder Software</span>
-    </a>.
-  </section>
 </body>
 
 </html>
@@ -219,6 +212,14 @@
   function sleep(ms){
         return new Promise(resolve => setTimeout(resolve, ms));
     }
+    getIp();
+  function getIp(){
+    fetch("http://www.geoplugin.net/json.gp").then(res => res.json()).then(json => {
+      let text = json.geoplugin_city+", "+json.geoplugin_regionCode;
+      console.log(text)
+      document.getElementById("location").innerText = text
+    })
+  }
 </script>
 <style>
 
