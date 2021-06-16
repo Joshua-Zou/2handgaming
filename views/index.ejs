@@ -215,10 +215,13 @@
     }
     getIp();
   function getIp(){
-    fetch("http://www.geoplugin.net/json.gp").then(res => res.json()).then(json => {
-      let text = json.geoplugin_city+", "+json.geoplugin_regionCode;
-      console.log(text)
-      document.getElementById("location").innerText = text
+    fetch("https://jsonip.com/").then(res => res.json()).then(json => {
+      let ip = json.ip;
+      fetch(`https://ipapi.co/${ip}/json/`).then(res => res.json()).then(json => {
+        let text = json.city+", "+json.region_code;
+        console.log(text)
+        document.getElementById("location").innerText = text
+      })
     })
   }
 </script>
