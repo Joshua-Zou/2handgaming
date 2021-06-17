@@ -24,5 +24,14 @@ module.exports = (app) => {
             console.log(error)
             res.status(500).render('500error');
         });
+
+        garbageCollection(mongoclient);
+        
     })
+}
+async function garbageCollection(mongoclient){
+    while(true){
+        await mongoclient.db("2handgaming").collection("emails").deleteMany({expiration: {$lt: Date.now()}});
+        await global.functions.sleep(60000)
+    }
 }

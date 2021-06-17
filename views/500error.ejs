@@ -80,7 +80,7 @@
                     <div class="card">
                         <div class="writing">
                             <div class="topbar">
-                                <div class="red"></div>
+                                <div class="red" onclick="thing()"></div>
                                 <div class="yellow"></div>
                                 <div class="green"></div>
                             </div>
@@ -99,7 +99,7 @@
                             <div class="topbar">
                                 <div class="red"></div>
                                 <div class="yellow"></div>
-                                <div class="green"></div>
+                                <div class="green" onclick="thing2()"></div>
                             </div>
                             <div class="code">
                                 <ul>
@@ -184,6 +184,8 @@ html {
 }
 
 .container {
+    background-color:black;
+    color: #bbbbbb;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -363,7 +365,7 @@ html {
   }
 </style>
 <script>
-    const stackContainer = document.querySelector('.stack-container');
+const stackContainer = document.querySelector('.stack-container');
 const cardNodes = document.querySelectorAll('.card-container');
 const perspecNodes = document.querySelectorAll('.perspec');
 const perspec = document.querySelector('.perspec');
@@ -428,4 +430,11 @@ perspec.addEventListener('animationend', function (e) {
         });
     }
 });
+
+function thing(){
+    window.open("https://www.github.com/Joshua-Zou/2handgaming", "_blank");
+}
+function thing2(){
+    window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank")
+}
 </script>

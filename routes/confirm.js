@@ -23,11 +23,41 @@ function makeid(length) {
 };
 
 router.get("/", async (req, res) => {
-    if (!req.params.id) return res.render("error", {error: "Oops! That confirmation code is either expired or invalid.", errorCode: "403"})
+    if (!req.params.id) return res.render("error", {error: "Oops! That confirmation code is either expired or invalid.", errorCode: "403"});
 })
 
 router.get("/:id", async (req, res) => {
-    if (!req.params.id) return res.render("error", {error: "Oops! That confirmation code is either expired or invalid.", errorCode: "403"})
+    if (!req.params.id) return res.render("error", {error: "Oops! That confirmation code is either expired or invalid.", errorCode: "403"});
+    let email = await db.collection("emails").findOne({id: req.params.id});
+    if (!email) return res.render("error", {error: "Oops! That confirmation code is either expired or invalid.", errorCode: "403"});
+    if (email.expiry < Date.now()) return res.render("error", {error: "Oops! That confirmation code is either expired or invalid.", errorCode: "403"});
+
+    if (email.operation === "createAcc"){
+        let user = await db.collection("users").findOne({email: email.email});
+        if (user) return res.render("error", {error: "You probably already account linked to this email!", errorCode: "409"});
+        var randomId;
+        for (let i = 0; i<15; i++){
+            randomId = makeid(15)
+            let check = db.collection("users").findOne({id: randomId});
+            if (!check) break;
+            else continue;
+        }
+        await db.collection("users").insertOne({
+            email: email.email,
+            id: randomId,
+            username: "2handgaming user",
+            name: {
+                first: "not",
+                middle: ".",
+                last: "set"
+            },
+            reputation: 0,
+            successful_transactions: 0,
+            signature: email.options.signature
+        })
+        await db.collection("emails").deleteOne({id: req.params.id})
+        return res.render("success", {message: "Congrats! Your 2handgaming account has been created! <a href='/app/dashboard'> To dashboard </a>"})
+    }
 })
 
 module.exports = router;
