@@ -44,7 +44,7 @@ router.post('/register', async (req, res) => {
     if (!req.body.email || !req.body.password) return res.send("You must have a email or password!");
     var result = zxcvbn(req.body.password);
     if (result.score < 3) return res.send("Password strength is too low! " + result.feedback.suggestions);
-    let user = await db.collection("sellers").findOne({ email: req.body.email });
+    let user = await db.collection("users").findOne({ email: req.body.email });
     if (user) return res.send("An account already exists with this email! Try logging in instead");
     let template = await fetch(`${secrets.domain}/html/welcomeTemplate.html`);
     let randomid = makeid(30);
