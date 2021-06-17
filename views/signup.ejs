@@ -6,7 +6,6 @@
     <body>
         <div class="login">
             <h1 style="text-align: center;">signup/signin</h1>
-            <h4 style="text-align: center; margin-top: 0px;">(For Sellers) <br><br> <a href="/buyer/signin">Buyer signup/signin</a></h4>
             <span style="text-align: center; color:rgb(224, 47, 47)" id="errorMessage"></span>
             <label for="login__username">email</label>
             <input type="text" id="login__username" required />
@@ -24,15 +23,15 @@
             </div>
             <div class="login__divider"></div>
             <div class="login__loginwith">
-                <span>login with facebook</span>
+                <span>login/signup with facebook</span>
                 <img src="https://image.flaticon.com/icons/png/512/145/145802.png" alt="facebook_icon" />
             </div>
             <div class="login__loginwith">
-                <span>login with google</span>
+                <span>login/signup with google</span>
                 <img src="https://image.flaticon.com/icons/png/512/281/281764.png" alt="google_icon" />
             </div>
             <div class="login__loginwith">
-                <span>login with github</span>
+                <span>login/signup with github</span>
                 <img src="https://cdn1.iconfinder.com/data/icons/logotypes/32/github-512.png" alt="github_icon" />
             </div>
         </div>
@@ -50,7 +49,7 @@
     async function login() {
         let email = document.getElementById("login__username").value;
         let password = document.getElementById("login__password").value;
-        if (email.replaceAll(" ", "") === "" || password.replaceAll(" ", "") === "") return document.getElementById("errorMessage").innerText = "Email/Password field must not be blank!";
+        if (email.replaceAll(" ", "") === "" || password.replaceAll(" ", "") === ""){document.getElementById("errorMessage").innerText = "Email/Password field must not be blank!"; fadeError()} 
         console.log(email, password);
         let returnedResult = await fetch("/api/login", {
             method: 'POST',
@@ -62,12 +61,12 @@
         });
         returnedResult = await returnedResult.text();
         if (returnedResult !== "good") return document.getElementById("errorMessage").innerText = returnedResult;
-        else window.location.href = "/seller/dashboard";
+        else window.location.href = "/app/dashboard";
     }
     async function register() {
         let email = document.getElementById("login__username").value;
         let password = document.getElementById("login__password").value;
-        if (email.replaceAll(" ", "") === "" || password.replaceAll(" ", "") === "") return document.getElementById("errorMessage").innerText = "Email/Password field must not be blank!";
+        if (email.replaceAll(" ", "") === "" || password.replaceAll(" ", "") === ""){document.getElementById("errorMessage").innerText = "Email/Password field must not be blank!"; fadeError()} 
         console.log(email, password);
         let returnedResult = await fetch("/api/register", {
             method: 'POST',
@@ -78,8 +77,10 @@
             body: JSON.stringify({email: email, password: password})
         });
         returnedResult = await returnedResult.text();
-        if (returnedResult !== "good") return document.getElementById("errorMessage").innerText = returnedResult;
-        else window.location.href = "/seller/dashboard";
+        if (returnedResult !== "good"){document.getElementById("errorMessage").innerText = returnedResult; fadeError()} 
+        else{
+            alert("An email has been sent to the email address! You have to confirm your email before you can login")
+        }
     }
 
     function showPass(){
@@ -92,6 +93,19 @@
     function rememberMe() {
         if (!localStorage.getItem("rememberme") || localStorage.getItem("rememberme") === "false") localStorage.setItem("rememberme", "true");
         else localStorage.setItem("rememberme", "false")
+    }
+    async function fadeError(){
+        let element = document.getElementById("errorMessage");
+        for (var x = 0; x<100; x++){
+            let opacity = 100-x;
+            element.style.opacity = opacity.toString()+"%";
+            await sleep(10)
+        }
+        element.innerHTML = "&nbsp;";
+        delete element.style.opacity;
+    }
+    function sleep(ms){
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 </script>
 

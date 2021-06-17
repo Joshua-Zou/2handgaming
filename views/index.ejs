@@ -107,9 +107,10 @@
           <ul class="u-nav u-unstyled u-nav-1">
             <li class="u-nav-item"><a
                 class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-                href="/seller/signin" style="padding: 10px 20px;">Seller Login</a>
-            </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="/buyer/signin"
-              style="padding: 10px 20px;">Buyer Login</a>
+                href="/app/signin" style="padding: 10px 20px;">Login</a>
+            </li><li class="u-nav-item"><a
+              class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
+              href="#" style="padding: 10px 20px;" onclick="signout()">Signout</a>
           </li>
           </ul>
         </div>
@@ -119,10 +120,10 @@
             <div class="u-sidenav-overflow">
               <div class="u-menu-close"></div>
               <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
-                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="/seller/signin"
-                    style="padding: 10px 20px;">Seller Login</a>
-                </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="/buyer/signin"
-                  style="padding: 10px 20px;">Buyer Login</a>
+                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="/app/signin"
+                    style="padding: 10px 20px;">Login</a>
+                </li><li class="u-nav-item"><a class="u-button-style u-nav-link" onclick="signout()" href="#"
+                  style="padding: 10px 20px;">Signout</a>
               </li>
               </ul>
             </div>
@@ -226,6 +227,11 @@
         console.log(text)
         document.getElementById("location").innerText = text
       })
+    })
+  }
+  function signout(){
+    fetch(`/api/signout`, {
+      method: "POST",
     })
   }
 </script>
