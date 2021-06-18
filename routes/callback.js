@@ -66,7 +66,7 @@ router.get("/github", async (req, res) => {
     for (let i = 0; i<15; i++){
         if (i === 14) throw ("couldn't create different id in 15 tries!")
         randomId = makeid(15)
-        let check = db.collection("users").findOne({id: randomId});
+        let check = await db.collection("users").findOne({id: randomId});
         if (!check) break;
         else continue;
     }
