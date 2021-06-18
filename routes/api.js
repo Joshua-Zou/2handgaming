@@ -29,12 +29,12 @@ router.post("/login", async (req, res) => {
     const hmac = createHmac('sha512', req.body.password);
     hmac.update(JSON.stringify(req.body.email));
     const signature = hmac.digest('hex');
-    let user = await db.collection("users").findOne({ signature: signature, email: req.body.email, type: "no-oauth2"});
+    let user = await db.collection("users").findOne({ signature: signature, email: req.body.email, type: "no-oauth2" });
     if (!user) {
-        let email = await db.collection("emails").findOne({ email: req.body.email });
+        let email = await db.collection("emails").findOne({ email: req.body.email, operation: "createAcc" });
         if (email) return res.send("You still need to verify this email by going to your email and clicking confirm!");
         else return res.send("Email/Password is incorrect");
-    }else{
+    } else {
         req.session.user = user.id;
         return res.send("good")
     }
@@ -60,9 +60,51 @@ router.post('/register', async (req, res) => {
         const hmac = createHmac('sha512', req.body.password);
         hmac.update(JSON.stringify(req.body.email));
         const signature = hmac.digest('hex');
-        await db.collection("emails").insertOne({id: randomid, email: req.body.email, operation: "createAcc", expiration: Date.now()+1800000, options: {signature: signature}});
+        await db.collection("emails").insertOne({ id: randomid, email: req.body.email, operation: "createAcc", expiration: Date.now() + 1800000, options: { signature: signature } });
         return res.send("good")
     }
+})
+
+router.post('/forgotpassword', async (req, res) => {
+    if (!req.body.email) return res.send("You must input an email associated with this account");
+    let user = await db.collection("users").findOne({ email: req.body.email, type: "no-oauth2" });
+    if (!user) return res.send("Email is not tied to a valid account!");
+
+    let randomid = makeid(30);
+    await db.collection("emails").insertOne({
+        id: randomid,
+        email: req.body.email,
+        operation: "resetPass",
+        expiration: Date.now() + 600000
+    })
+    let template = await fetch(`${secrets.domain}/html/resetPass.html`);
+    template = await template.text();
+    template = template.replace(/UserNameTemplate/g, req.body.email);
+    template = template.replace(/BuyerIdTemplate/g, user.id);
+    template = template.replace(/ConfirmationCodeTemplate/g, `https://www.2handgaming.ga/confirm/${randomid}`)
+    let emailresult = await sendEmail(req.body.email, "2handgaming Reset Password", template).catch(err => {
+        return "error" + err.toString();
+    })
+    return res.send("ok")
+})
+
+router.post('/resetPass', async (req, res) => {
+    if (!req.body.code || !req.body.password) return res.send("Invalid code!");
+    var result = zxcvbn(req.body.password);
+    if (result.score < 3) return res.send("Password strength is too low! " + result.feedback.suggestions);
+    let dbemail = await db.collection("emails").findOne({id: req.body.code});
+    let user = await db.collection("users").findOne({ email: dbemail.email });
+
+    const hmac = createHmac('sha512', req.body.password);
+    hmac.update(JSON.stringify(user.email));
+    const signature = hmac.digest('hex');
+    await db.collection("users").updateOne({id: user.id}, {
+        $set:{
+            signature: signature
+        }
+    })
+    await db.collection("emails").deleteOne({id: req.body.code})
+    return res.send("good")
 })
 
 router.post('/signout', (req, res) => {

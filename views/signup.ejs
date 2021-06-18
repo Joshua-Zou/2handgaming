@@ -21,17 +21,13 @@
             <div class="login__section">
                 <input type="checkbox" onclick="rememberMe()" id="login__remember" />
                 <label for="login__remember">remember me</label>
-                <a href="#" class="login__new-password">Forgot password?</a>
+                <a href="#" class="login__new-password" onclick="forgotpassword()">Forgot password?</a>
             </div>
             <div class="login__section-2">
                 <a href="#" class="login__register login__button" onclick="register()">register</a>
                 <button class="login__submit login__button" onclick="login()">login</button>
             </div>
             <div class="login__divider"></div>
-            <div class="login__loginwith">
-                <span>login/signup with facebook</span>
-                <img src="https://image.flaticon.com/icons/png/512/145/145802.png" alt="facebook_icon" />
-            </div>
             <div id="gSignInWrapper">
                 <div class="login__loginwith" id="customBtn">
                     <span>login/signup with google</span>
@@ -87,7 +83,8 @@
         returnedResult = await returnedResult.text();
         if (returnedResult !== "good") { document.getElementById("errorMessage").innerText = returnedResult; fadeError() }
         else {
-            alert("An email has been sent to the email address! You have to confirm your email before you can login")
+            alert("An email has been sent to the email address! You have to confirm your email before you can login");
+            window.location.href = "/"
         }
     }
 
@@ -107,13 +104,34 @@
         for (var x = 0; x < 100; x++) {
             let opacity = 100 - x;
             element.style.opacity = opacity.toString() + "%";
-            await sleep(10)
+            await sleep(20)
         }
         element.innerHTML = "&nbsp;";
         delete element.style.opacity;
     }
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    async function forgotpassword() {
+        let email = document.getElementById("login__username").value;
+        if (email.replaceAll(" ", "") === "") { document.getElementById("errorMessage").innerText = "Email field must not be blank!"; return fadeError() }
+
+        let x = await fetch("/api/forgotpassword", {
+            method: "POST",
+            body: JSON.stringify({ email: email }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        x = await x.text();
+        if (x === "ok") {
+            alert("An email has been sent to the connected email address!");
+            window.location.href = "/";
+        } else {
+            document.getElementById("errorMessage").innerText = x;
+            fadeError();
+        }
     }
 </script>
 
@@ -154,16 +172,16 @@
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onload = function () {
             console.log(xhr.response)
-            if (xhr.response === "gotodashboard") window.location.href="/app/dashboard";
+            if (xhr.response === "gotodashboard") window.location.href = "/app/dashboard";
             else replaceContent(xhr.response)
         }
         console.log(googleUser.getAuthResponse())
-        xhr.send(JSON.stringify({'idtoken': googleUser.getAuthResponse().id_token, "requested":id, "email":profile.getEmail()}));
+        xhr.send(JSON.stringify({ 'idtoken': googleUser.getAuthResponse().id_token, "requested": id, "email": profile.getEmail() }));
     };
     function replaceContent(NC) {
         document.open();
         document.write(NC);
         document.close();
-      }
+    }
     startApp();
 </script>

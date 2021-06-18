@@ -60,6 +60,8 @@ router.get("/:id", async (req, res) => {
         })
         await db.collection("emails").deleteOne({id: req.params.id})
         return res.render("success", {message: "Congrats! Your 2handgaming account has been created! <a href='/app/dashboard'> To dashboard </a>"})
+    }else if (email.operation === "resetPass"){
+        return res.render("resetPass", {code: email.id})
     }
 })
 
