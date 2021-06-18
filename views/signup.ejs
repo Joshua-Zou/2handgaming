@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton"></script>
+    <link rel="stylesheet" type="text/css" href="/css/Signup.css">
+</head>
+
 <body style="background-image: url(/images/signinbackground.png); width: 100%;">
 
     <body>
@@ -11,7 +16,8 @@
             <input type="text" id="login__username" required />
             <label for="login__password">password</label>
             <input type="password" id="login__password" required />
-            <a href="#" style="text-decoration: none; color: rgb(224, 47, 47); margin-top: 10px;" onmousedown="showPass()" onmouseup="hidePass()">Show Password</a>
+            <a href="#" style="text-decoration: none; color: rgb(224, 47, 47); margin-top: 10px;"
+                onmousedown="showPass()" onmouseup="hidePass()">Show Password</a>
             <div class="login__section">
                 <input type="checkbox" onclick="rememberMe()" id="login__remember" />
                 <label for="login__remember">remember me</label>
@@ -26,11 +32,14 @@
                 <span>login/signup with facebook</span>
                 <img src="https://image.flaticon.com/icons/png/512/145/145802.png" alt="facebook_icon" />
             </div>
-            <div class="login__loginwith">
-                <span>login/signup with google</span>
-                <img src="https://image.flaticon.com/icons/png/512/281/281764.png" alt="google_icon" />
+            <div id="gSignInWrapper">
+                <div class="login__loginwith" id="customBtn">
+                    <span>login/signup with google</span>
+                    <img src="https://image.flaticon.com/icons/png/512/281/281764.png" alt="google_icon" />
+                </div>
             </div>
-            <div class="login__loginwith" onclick="window.location.href='https://github.com/login/oauth/authorize?client_id=1fa55d49768487fc1d76&scope=user:email'">
+            <div class="login__loginwith"
+                onclick="window.location.href='https://github.com/login/oauth/authorize?client_id=1fa55d49768487fc1d76&scope=user:email'">
                 <span>login/signup with github</span>
                 <img src="https://cdn1.iconfinder.com/data/icons/logotypes/32/github-512.png" alt="github_icon" />
             </div>
@@ -39,7 +48,6 @@
 </body>
 
 </html>
-
 <script>
     //
     String.prototype.replaceAll = function (find, replace) {
@@ -49,7 +57,7 @@
     async function login() {
         let email = document.getElementById("login__username").value;
         let password = document.getElementById("login__password").value;
-        if (email.replaceAll(" ", "") === "" || password.replaceAll(" ", "") === ""){document.getElementById("errorMessage").innerText = "Email/Password field must not be blank!"; fadeError()} 
+        if (email.replaceAll(" ", "") === "" || password.replaceAll(" ", "") === "") { document.getElementById("errorMessage").innerText = "Email/Password field must not be blank!"; fadeError() }
         console.log(email, password);
         let returnedResult = await fetch("/api/login", {
             method: 'POST',
@@ -57,7 +65,7 @@
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({email: email, password: password})
+            body: JSON.stringify({ email: email, password: password })
         });
         returnedResult = await returnedResult.text();
         if (returnedResult !== "good") return document.getElementById("errorMessage").innerText = returnedResult;
@@ -66,7 +74,7 @@
     async function register() {
         let email = document.getElementById("login__username").value;
         let password = document.getElementById("login__password").value;
-        if (email.replaceAll(" ", "") === "" || password.replaceAll(" ", "") === ""){document.getElementById("errorMessage").innerText = "Email/Password field must not be blank!"; fadeError()} 
+        if (email.replaceAll(" ", "") === "" || password.replaceAll(" ", "") === "") { document.getElementById("errorMessage").innerText = "Email/Password field must not be blank!"; fadeError() }
         console.log(email, password);
         let returnedResult = await fetch("/api/register", {
             method: 'POST',
@@ -74,19 +82,19 @@
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({email: email, password: password})
+            body: JSON.stringify({ email: email, password: password })
         });
         returnedResult = await returnedResult.text();
-        if (returnedResult !== "good"){document.getElementById("errorMessage").innerText = returnedResult; fadeError()} 
-        else{
+        if (returnedResult !== "good") { document.getElementById("errorMessage").innerText = returnedResult; fadeError() }
+        else {
             alert("An email has been sent to the email address! You have to confirm your email before you can login")
         }
     }
 
-    function showPass(){
+    function showPass() {
         document.getElementById("login__password").type = "text";
     }
-    function hidePass(){
+    function hidePass() {
         document.getElementById("login__password").type = "password";
     }
     if (localStorage.getItem("rememberme") === "true") document.getElementById("login__remember").checked = true;
@@ -94,184 +102,68 @@
         if (!localStorage.getItem("rememberme") || localStorage.getItem("rememberme") === "false") localStorage.setItem("rememberme", "true");
         else localStorage.setItem("rememberme", "false")
     }
-    async function fadeError(){
+    async function fadeError() {
         let element = document.getElementById("errorMessage");
-        for (var x = 0; x<100; x++){
-            let opacity = 100-x;
-            element.style.opacity = opacity.toString()+"%";
+        for (var x = 0; x < 100; x++) {
+            let opacity = 100 - x;
+            element.style.opacity = opacity.toString() + "%";
             await sleep(10)
         }
         element.innerHTML = "&nbsp;";
         delete element.style.opacity;
     }
-    function sleep(ms){
+    function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 </script>
 
-<style>
-    * {
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        font-family: "Roboto", sans-serif;
-        -webkit-tap-highlight-color: transparent;
-    }
 
-    html,
-    body {
-        padding: 0;
-        margin: 0;
-        display: -ms-grid;
-        display: grid;
-        place-items: center;
-        height: 100vh;
-        background: #f8f9ff;
-        color: rgba(0, 0, 0, 0.7);
+<script>
+    var googleUser = {};
+    var startApp = function () {
+        gapi.load('auth2', function () {
+            // Retrieve the singleton for the GoogleAuth library and set up the client.
+            auth2 = gapi.auth2.init({
+                client_id: '529338331494-cflnifocmjdd90s3n7385lfq7qjc38bf.apps.googleusercontent.com',
+                cookiepolicy: 'single_host_origin',
+                // Request scopes in addition to 'profile' and 'email'
+                //scope: 'additional_scope'
+            });
+            attachSignin(document.getElementById('customBtn'));
+        });
+    };
+    function attachSignin(element) {
+        console.log(element.id);
+        auth2.attachClickHandler(element, {},
+            function (googleUser) {
+                dorest(googleUser)
+            }, function (error) {
+                return;
+            });
     }
-
-    .login {
-        width: 400px;
-        min-height: 300px;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        background: white;
-        padding: 1em 2em;
-        border-radius: 1em;
-        -webkit-box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .login #login__username,
-    .login #login__password {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        outline: none;
-        border: 1px solid rgba(0, 0, 0, 0.3);
-        border-radius: 0.6em;
-        height: 2em;
-        padding-left: 1em;
-    }
-
-    .login>label {
-        margin-top: 1em;
-        margin-bottom: 0.3em;
-    }
-
-    .login .login__section {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        margin: 1em 0 2em 0;
-    }
-
-    .login .login__section #login__remember {
-        position: relative;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        outline: none;
-        width: 3em;
-        height: 1.5em;
-        background: #e2e2e2;
-        margin-right: 0.5em;
-        border: 0;
-        border-radius: calc(1.5em / 2);
-        cursor: pointer;
-    }
-
-    .login .login__section #login__remember::after {
-        content: "";
-        position: absolute;
-        top: 0.25em;
-        left: 0.25em;
-        width: 1em;
-        height: 1em;
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.3);
-        -webkit-transition: all 0.2s;
-        transition: all 0.2s;
-    }
-
-    .login .login__section #login__remember:checked::after {
-        -webkit-transform: translateX(1.5em);
-        transform: translateX(1.5em);
-        background: #42a5f5;
-    }
-
-    .login .login__section .login__new-password {
-        margin-left: auto;
-        text-decoration: none;
-        color: rgb(224, 47, 47);
-    }
-
-    .login .login__button {
-        cursor: pointer;
-        outline: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        border-radius: 0.6em;
-        border: 0;
-        max-width: -webkit-max-content;
-        max-width: -moz-max-content;
-        max-width: max-content;
-        padding: 0.7em 2em;
-        color: white;
-        text-decoration: none;
-        font-size: 1em;
-    }
-
-    .login .login__section-2 {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-    }
-
-    .login .login__section-2 .login__submit {
-        margin-left: auto;
-        background: #42a5f5;
-    }
-
-    .login .login__section-2 .login__register {
-        background: #333333;
-    }
-
-    .login .login__divider {
-        display: block;
-        width: 100%;
-        height: 1px;
-        background: #e6e6e6;
-        margin: 1em 0;
-    }
-
-    .login .login__loginwith {
-        height: 2.5em;
-        border-radius: 0.7em;
-        background: white;
-        margin: 0.3em 0;
-        padding: 0 1em;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-        cursor: pointer;
-    }
-
-    .login .login__loginwith img {
-        height: 2em;
-        margin-left: auto;
-    }
-</style>
+    function dorest(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        let id = profile.getId();
+        console.log('ID: ' + id); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/callbacks/google');
+        xhr.withCredentials = true;
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function () {
+            console.log(xhr.response)
+            if (xhr.response === "gotodashboard") window.location.href="/app/dashboard";
+            else replaceContent(xhr.response)
+        }
+        console.log(googleUser.getAuthResponse())
+        xhr.send(JSON.stringify({'idtoken': googleUser.getAuthResponse().id_token, "requested":id, "email":profile.getEmail()}));
+    };
+    function replaceContent(NC) {
+        document.open();
+        document.write(NC);
+        document.close();
+      }
+    startApp();
+</script>
