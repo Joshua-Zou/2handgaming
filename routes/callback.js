@@ -83,6 +83,7 @@ router.get("/github", async (req, res) => {
          succesful_transactions: 0,
          type: "github"
      })
+     req.session.user = randomId;
      return res.render("success", {message: "Congrats! Your 2handgaming account has been created! <a href='/app/dashboard'> To dashboard </a>"})
  }
  
