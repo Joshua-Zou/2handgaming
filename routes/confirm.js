@@ -38,7 +38,8 @@ router.get("/:id", async (req, res) => {
         var randomId;
         for (let i = 0; i<15; i++){
             if (i === 14) throw ("couldn't create different id in 15 tries!")
-            randomId = makeid(15)
+            randomId = makeid(15);
+            console.log(randomId)
             let check = db.collection("users").findOne({id: randomId});
             if (!check) break;
             else continue;
