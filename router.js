@@ -16,6 +16,7 @@ module.exports = (app) => {
         app.use("/app", require("./routes/app.js"));
         app.use("/api", require("./routes/api.js"));
         app.use("/confirm", require("./routes/confirm.js"));
+        app.use("/callbacks", require("./routes/callback.js"));
         app.use("/", require("./routes/index.js"));
         app.use(function(req, res) {
             res.status(404).render('404error');

@@ -29,11 +29,11 @@ router.post("/login", async (req, res) => {
     const hmac = createHmac('sha512', req.body.password);
     hmac.update(JSON.stringify(req.body.email));
     const signature = hmac.digest('hex');
-    let user = await db.collection("users").findOne({ signature: signature, email: req.body.email });
+    let user = await db.collection("users").findOne({ signature: signature, email: req.body.email, type: "no-oauth2"});
     if (!user) {
         let email = await db.collection("emails").findOne({ email: req.body.email });
         if (email) return res.send("You still need to verify this email by going to your email and clicking confirm!");
-        else return res.send("Email/Password is incorrect")
+        else return res.send("Email/Password is incorrect");
     }else{
         req.session.user = user.id;
         return res.send("good")

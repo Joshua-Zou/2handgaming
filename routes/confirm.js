@@ -53,7 +53,8 @@ router.get("/:id", async (req, res) => {
             },
             reputation: 0,
             successful_transactions: 0,
-            signature: email.options.signature
+            signature: email.options.signature,
+            type: "no-oauth2"
         })
         await db.collection("emails").deleteOne({id: req.params.id})
         return res.render("success", {message: "Congrats! Your 2handgaming account has been created! <a href='/app/dashboard'> To dashboard </a>"})
