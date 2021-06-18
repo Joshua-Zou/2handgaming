@@ -37,6 +37,7 @@ router.get("/:id", async (req, res) => {
         if (user) return res.render("error", {error: "You probably already account linked to this email!", errorCode: "409"});
         var randomId;
         for (let i = 0; i<15; i++){
+            if (i === 14) throw ("couldn't create different id in 15 tries!")
             randomId = makeid(15)
             let check = db.collection("users").findOne({id: randomId});
             if (!check) break;

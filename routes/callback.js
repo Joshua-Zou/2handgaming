@@ -58,9 +58,17 @@ router.get("/github", async (req, res) => {
      req.session.user = guser.id;
      return res.redirect("/app/dashboard");
  }else{
+    var randomId;
+    for (let i = 0; i<15; i++){
+        if (i === 14) throw ("couldn't create different id in 15 tries!")
+        randomId = makeid(15)
+        let check = db.collection("users").findOne({id: randomId});
+        if (!check) break;
+        else continue;
+    }
      await db.collection("users").insertOne({
          email: emails[0].email,
-         id: asdf,
+         id: randomId,
          username: "2handgaming user",
          name: {
              first: "not",
