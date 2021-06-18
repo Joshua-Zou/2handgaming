@@ -53,6 +53,10 @@ router.get("/github", async (req, res) => {
  if (!emails[0]) throw "no email in github!"
  else console.log(emails[0].email)
 
+ let genuser = await db.collection("users").findOne({email: emails[0].email});
+ if (genuser) return res.render("error", {error: "an account already exists with this email!"})
+
+
  let guser = await db.collection("users").findOne({email: emails[0].email, type: "github"});
  if (guser) {
      req.session.user = guser.id;
