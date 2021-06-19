@@ -2,8 +2,22 @@ const router = require('express').Router();
 const { createHmac } = require("crypto")
 const nodemailer = require("nodemailer")
 const mongoclient = global.mongoclient;
-const fetch = require('node-fetch')
+const fetch = require('node-fetch');
+var fs = require('file-system');
 var zxcvbn = require('zxcvbn');
+const fileUpload = require("express-fileupload");
+var cloudinary = require("cloudinary");
+router.use(fileUpload({
+    limits: {
+        fileSize: 1000000 //1mb
+    },
+    abortOnLimit: true,
+    //responseOnLimit: "You suck"
+    limitHandler: function (req, res, next){
+        req.session.stop = true;
+    }
+}));
+cloudinary.config(global.secrets.cloudinary);
 var strength = {
     0: "Worst ☹",
     1: "Bad ☹",
@@ -39,7 +53,6 @@ router.post("/login", async (req, res) => {
         return res.send("good")
     }
 })
-
 router.post('/register', async (req, res) => {
     if (!req.body.email || !req.body.password) return res.send("You must have a email or password!");
     var result = zxcvbn(req.body.password);
@@ -64,7 +77,6 @@ router.post('/register', async (req, res) => {
         return res.send("good")
     }
 })
-
 router.post('/forgotpassword', async (req, res) => {
     if (!req.body.email) return res.send("You must input an email associated with this account");
     let user = await db.collection("users").findOne({ email: req.body.email, type: "no-oauth2" });
@@ -87,7 +99,6 @@ router.post('/forgotpassword', async (req, res) => {
     })
     return res.send("ok")
 })
-
 router.post('/resetPass', async (req, res) => {
     if (!req.body.code || !req.body.password) return res.send("Invalid code!");
     var result = zxcvbn(req.body.password);
@@ -106,10 +117,48 @@ router.post('/resetPass', async (req, res) => {
     await db.collection("emails").deleteOne({id: req.body.code})
     return res.send("good")
 })
-
 router.post('/signout', (req, res) => {
     req.session = null
     return res.send("ok")
+})
+router.post('/changePfp', async (req, res) => {
+    if (req.session.stop === true){delete req.session.stop; req.session.stop = undefined; req.session.save(); return res.render("error", {error: "The max size for profile images is 1mb!", errorCode: "413"});}
+    if (!req.session.user) return res.send("your session has expired! Login again to continue");
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.send("You didn't upload any files!");
+    }
+    let image = req.files.image;
+    if (!image.name.toString().includes(".png") && !image.name.toString().includes(".jpg") && !image.name.toString().includes(".jpeg")){
+        return res.render("error", {error: "that was not a supported file type! Only png and webm files are supported", errorCode: "415"})
+    }
+    let randomid = makeid(10)
+    uploadPath = global.projectRoot + "/static/cdn/images/" + randomid+".png";
+
+    let pfpUser = await db.collection("users").findOne({id: req.session.user});
+    if (!pfpUser) return res.render("500error");
+    if (pfpUser.pfp){
+        //
+        let beforePfp = pfpUser.pfp;
+        beforePfp = beforePfp.slice(67, beforePfp.length-4);
+        cloudinary.uploader.destroy(beforePfp);
+    }
+
+    await image.mv(uploadPath, async function (err) {
+        if (err) {console.log(err); return res.status(500).send(err);}
+        await cloudinary.uploader.upload(
+          uploadPath,
+          async function (result, error) {
+            fs.unlinkSync(uploadPath);
+            await db.collection("users").updateOne({id: req.session.user}, {
+                $set: {
+                    pfp: result.url
+                }
+            })
+          }
+        )
+    })
+    await sleep(1000)
+    return res.redirect("/app/dashboard")
 })
 async function sendEmail(reciever, subject, html) {
     var transporter = nodemailer.createTransport({
@@ -128,5 +177,7 @@ async function sendEmail(reciever, subject, html) {
     let emailSent = await transporter.sendMail(mailOptions).catch(err => { return "error" })
     if (emailSent.toString() === "error") throw "error"
 }
-
+function sleep(ms){
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 module.exports = router;

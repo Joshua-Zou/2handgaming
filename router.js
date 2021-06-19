@@ -8,6 +8,7 @@ module.exports = (app) => {
     global.functions.sleep = function (ms){
         return new Promise(resolve => setTimeout(resolve, ms));
     }
+    global.projectRoot = __dirname;
     const mongoclient = new MongoClient(uri, {poolSize: 10, bufferMaxEntries: 0, useNewUrlParser: true,useUnifiedTopology: true});
     mongoclient.connect(async function(err, mongoclient){
         //const functions = global.functions;

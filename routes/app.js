@@ -1,5 +1,10 @@
 const router = require('express').Router();
-
+const { createHmac } = require("crypto")
+const nodemailer = require("nodemailer")
+const mongoclient = global.mongoclient;
+const fetch = require('node-fetch');
+var fs = require('file-system');
+const db = mongoclient.db("2handgaming");
 router.get("/", (req, res) => {
     res.redirect("/")
 })
@@ -10,7 +15,16 @@ router.get("/signin", (req, res) => {
 
 router.get("/dashboard", async (req, res) => {
     if (!req.session.user) return res.redirect("/app/signin");
-    
-    return res.send("hi this area is still in development. Be sure to check back later!")
+    let user = await db.collection("users").findOne({id: req.session.user});
+    if (!user) {
+        req.session = null;
+        return res.render("error", {error: "This account does not exist anymore!", errorCode: "500"});
+    }
+    if (!user.pfp) db.collection("users").updateOne({id: req.session.user}, {
+        $set:{
+            pfp: "http://res.cloudinary.com/secndhandgaming/image/upload/v1624077787/vyshsrkqmoac1ffi1gvk.png"
+        }
+    })
+    return res.render("dashboard/dashboard.ejs", {user: user})
 })
 module.exports = router;
