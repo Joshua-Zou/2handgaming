@@ -139,7 +139,7 @@ router.post('/changePfp', async (req, res) => {
     if (pfpUser.pfp){
         let beforePfp = pfpUser.pfp;
         beforePfp = beforePfp.slice(67, beforePfp.length-4);
-        cloudinary.uploader.destroy(beforePfp);
+        cloudinary.uploader.destroy(beforePfp, function(result) {  });
     }
 
     await image.mv(uploadPath, async function (err) {
