@@ -137,7 +137,6 @@ router.post('/changePfp', async (req, res) => {
     let pfpUser = await db.collection("users").findOne({id: req.session.user});
     if (!pfpUser) return res.render("500error");
     if (pfpUser.pfp){
-        //
         let beforePfp = pfpUser.pfp;
         beforePfp = beforePfp.slice(67, beforePfp.length-4);
         cloudinary.uploader.destroy(beforePfp);
