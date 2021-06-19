@@ -138,7 +138,9 @@ router.post('/changePfp', async (req, res) => {
     if (!pfpUser) return res.render("500error");
     if (pfpUser.pfp){
         let beforePfp = pfpUser.pfp;
-        beforePfp = beforePfp.slice(67, beforePfp.length-4);
+        if (!beforePfp.includes(".webp"))
+            beforePfp = beforePfp.slice(67, beforePfp.length-4);
+        else beforePfp = beforePfp.slice(67, beforePfp.length-5);
         cloudinary.uploader.destroy(beforePfp, function(result){console.log(result)});
     }
 
