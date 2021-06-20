@@ -2,8 +2,6 @@
 secret.json
 config.json
 
-static/cdn/*
-!static/cdn/.gitkeep
 
 # Logs
 logs

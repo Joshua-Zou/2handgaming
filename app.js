@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+var bodyParser = require("body-parser");
 
 var secrets;
 if (process.env.secrets){
@@ -7,6 +8,7 @@ if (process.env.secrets){
 }else{
   secrets = require("./secret.json")
 }
+global.secrets = secrets;
 
 let port = process.env.PORT || 42069;
 let secret = secrets.sessionSecret;
@@ -25,6 +27,7 @@ let sessionParser = session({
     saveUninitialized: false,
 })
 app.use(sessionParser);
+app.use(bodyParser.json({ extended: true }));
 
 require('./router')(app);
 

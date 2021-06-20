@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/Signup.css">
+</head>
+
+<body style="background-image: url(/images/signinbackground.png); width: 100%;">
+
+    <body>
+        <div class="login">
+            <h1 style="text-align: center;">Reset Password</h1>
+            <span style="text-align: center; color:rgb(224, 47, 47)" id="errorMessage"></span>
+            <label for="login__password">new password</label>
+            <input type="password" id="login__password" required />
+            <a href="#" style="text-decoration: none; color: rgb(224, 47, 47); margin-top: 10px;"
+                onmousedown="showPass()" onmouseup="hidePass()">Show Password</a>
+            <label for="login__password1">Confirm password</label>
+            <input type="password" id="login__password1" required />
+            <a href="#" style="text-decoration: none; color: rgb(224, 47, 47); margin-top: 10px;"
+                onmousedown="showPass1()" onmouseup="hidePas1s()">Show Password</a>
+            <div class="login__section-2">
+                <button class="login__submit login__button" onclick="reset()">Reset Password</button>
+            </div>
+    </body>
+</body>
+
+</html>
+<script>
+    //
+    let code = '<%-code%>';
+    console.log(code);
+
+    String.prototype.replaceAll = function (find, replace) {
+        var regex = new RegExp(find, 'g');
+        return this.replace(regex, replace)
+    }
+    async function reset() {
+        let password1 = document.getElementById("login__password1").value;
+        let password = document.getElementById("login__password").value;
+        if (password.replaceAll(" ", "") === "" || password1.replaceAll(" ", "") === "") { document.getElementById("errorMessage").innerText = "Password field must not be blank!"; return fadeError() }
+        if (password1 !== password){
+            document.getElementById("errorMessage").innerText = "passwords do not mamtch!";
+            return fadeError();
+        }
+        let returnedResult = await fetch("/api/resetPass", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ code: code, password: password })
+        });
+        returnedResult = await returnedResult.text();
+        if (returnedResult !== "good") { document.getElementById("errorMessage").innerText = returnedResult; fadeError() }
+        else {
+            alert("Your password has been reset successfully!");
+            window.location.href = "/"
+        }
+    }
+
+    function showPass() {
+        document.getElementById("login__password").type = "text";
+    }
+    function hidePass() {
+        document.getElementById("login__password").type = "password";
+    }
+    function showPass1() {
+        document.getElementById("login__password1").type = "text";
+    }
+    function hidePass1() {
+        document.getElementById("login__password1").type = "password";
+    }
+    async function fadeError() {
+        let element = document.getElementById("errorMessage");
+        for (var x = 0; x < 100; x++) {
+            let opacity = 100 - x;
+            element.style.opacity = opacity.toString() + "%";
+            await sleep(20)
+        }
+        element.innerHTML = "&nbsp;";
+        delete element.style.opacity;
+    }
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+</script>
