@@ -2,302 +2,305 @@
 
 
 <html>
-<header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on"
-    role="banner" style="background-color: black;">
-    <div class="Header-item mt-n1 mb-n1  d-none d-md-flex">
-        <a class="Header-link " href="/" data-hotkey="g d" aria-label="Homepage "
-            data-ga-click="Header, go to dashboard, icon:logo">
-            <img src="/images/smalllogo.png" width="200px">
-        </a>
-
-    </div>
-
-    <div class="Header-item d-md-none">
-        <button class="Header-link btn-link js-details-target" type="button" aria-label="Toggle navigation"
-            aria-expanded="true" onclick="showhideHeader();">
-            <svg aria-hidden="true" viewBox="0 0 16 16" version="1.1" data-view-component="true" height="24" width="24"
-                class="octicon octicon-three-bars">
-                <path fill-rule="evenodd"
-                    d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
-                </path>
-            </svg>
-        </button>
-    </div>
-
-    <div class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex"
-        style="justify-content: space-between;">
-
-
-
-        <div class="header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 js-jump-to"
-            style="margin-left: auto; margin-right: 50px !important;">
-            <div class="position-relative" id="searchbar">
-                <!-- '"` -->
-                <!-- </textarea></xmp> -->
-                <form class="js-site-search-form" role="search" aria-label="Site" data-unscoped-search-url="/listings"
-                    action="/listings" accept-charset="UTF-8" method="get">
-                    <label
-                        class="form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
-                        <input type="text" style="height: 30px"
-                            class="form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus"
-                            data-hotkey="s,/" name="q" value="" placeholder="Search Listings"
-                            data-unscoped-placeholder="Search Listings" data-scoped-placeholder="Search Listings"
-                            autocapitalize="off" role="combobox" aria-haspopup="listbox" aria-expanded="false"
-                            aria-autocomplete="list" aria-controls="jump-to-results" aria-label="Search Listings"
-                            data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations"
-                            spellcheck="false" autocomplete="off">
-                        <input type="hidden" class="js-site-search-type-field" name="type">
-
-                        <div
-                            class="Box position-absolute overflow-hidden jump-to-suggestions js-jump-to-suggestions-container d-none">
-
-                            <ul class="d-none js-jump-to-suggestions-template-container">
-
-
-                                <li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-suggestion"
-                                    role="option">
-                                    <a tabindex="-1"
-                                        class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2"
-                                        href="" data-item-type="suggestion">
-                                        <div
-                                            class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
-                                            <svg height="16" width="16"
-                                                class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none"
-                                                title="Repository" aria-label="Repository" viewBox="0 0 16 16"
-                                                version="1.1" role="img">
-                                                <path fill-rule="evenodd"
-                                                    d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z">
-                                                </path>
-                                            </svg>
-                                            <svg height="16" width="16"
-                                                class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none"
-                                                title="Project" aria-label="Project" viewBox="0 0 16 16" version="1.1"
-                                                role="img">
-                                                <path fill-rule="evenodd"
-                                                    d="M1.75 0A1.75 1.75 0 000 1.75v12.5C0 15.216.784 16 1.75 16h12.5A1.75 1.75 0 0016 14.25V1.75A1.75 1.75 0 0014.25 0H1.75zM1.5 1.75a.25.25 0 01.25-.25h12.5a.25.25 0 01.25.25v12.5a.25.25 0 01-.25.25H1.75a.25.25 0 01-.25-.25V1.75zM11.75 3a.75.75 0 00-.75.75v7.5a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75zm-8.25.75a.75.75 0 011.5 0v5.5a.75.75 0 01-1.5 0v-5.5zM8 3a.75.75 0 00-.75.75v3.5a.75.75 0 001.5 0v-3.5A.75.75 0 008 3z">
-                                                </path>
-                                            </svg>
-                                            <svg height="16" width="16"
-                                                class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none"
-                                                title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1"
-                                                role="img">
-                                                <path fill-rule="evenodd"
-                                                    d="M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 111.06-1.06l3.04 3.04a.75.75 0 11-1.06 1.06l-3.04-3.04z">
-                                                </path>
-                                            </svg>
-                                        </div>
-
-                                        <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none"
-                                            alt="" aria-label="Team" src="" width="28" height="28">
-
-                                        <div
-                                            class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
-                                        </div>
-
-                                        <div
-                                            class="border rounded-1 flex-shrink-0 color-bg-tertiary px-1 color-text-tertiary ml-1 f6 d-none js-jump-to-badge-search">
-                                            <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
-                                        </div>
-
-                                        <div aria-hidden="true"
-                                            class="border rounded-1 flex-shrink-0 color-bg-tertiary px-1 color-text-tertiary ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
-                                            Jump to
-                                            <span class="d-inline-block ml-1 v-align-middle">↵</span>
-                                        </div>
-                                    </a>
-                                </li>
-
-                            </ul>
-
-                            <ul class="d-none js-jump-to-no-results-template-container">
-                                <li
-                                    class="d-flex flex-justify-center flex-items-center f5 d-none js-jump-to-suggestion p-2">
-                                    <span class="color-text-secondary">No suggested jump to results</span>
-                                </li>
-                            </ul>
-
-                            <ul id="jump-to-results" role="listbox"
-                                class="p-0 m-0 js-navigation-container jump-to-suggestions-results-container js-jump-to-suggestions-results-container js-active-navigation-container">
-                            </ul>
-
-                        </div>
-                    </label>
-                </form>
-            </div>
+    <div id="page-header">
+        <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on"
+        role="banner" style="background-color: black;" id="page-header">
+        <div class="Header-item mt-n1 mb-n1  d-none d-md-flex">
+            <a class="Header-link " href="/" data-hotkey="g d" aria-label="Homepage "
+                data-ga-click="Header, go to dashboard, icon:logo">
+                <img src="/images/smalllogo.png" width="200px">
+            </a>
+    
         </div>
-
-        <nav class="d-flex flex-column flex-md-row flex-self-stretch flex-md-self-auto" aria-label="Global">
-            <% if (user){ %>
-                <a class="js-selected-navigation-item Header-link d-block d-md-none py-2 py-md-3 border-top border-md-top-0 border-white-fade"
-                    data-ga-click="Header, click, Nav menu - item:workspaces context:user"
-                    data-selected-links="/codespaces /codespaces" href="/app/create">
-                    <svg style="fill: #0366D6" aria-hidden="true" viewBox="0 0 16 16" version="1.1"
-                        data-view-component="true" height="16" width="16" class="octicon octicon-plus">
-                        <path fill-rule="evenodd"
-                            d="M7.75 2a.75.75 0 01.75.75V7h4.25a.75.75 0 110 1.5H8.5v4.25a.75.75 0 11-1.5 0V8.5H2.75a.75.75 0 010-1.5H7V2.75A.75.75 0 017.75 2z">
-                        </path>
-                    </svg> Create Listings
-                </a>
-                <% } %>
-                    <a class="js-selected-navigation-item Header-link mt-md-n3 mb-md-n3 py-2 py-md-3 mr-0 mr-md-3 border-top border-md-top-0 border-white-fade"
-                        href="/app/dashboard" style="border-color: white !important">
-                        Dashboard
+    
+        <div class="Header-item d-md-none">
+            <button class="Header-link btn-link js-details-target" type="button" aria-label="Toggle navigation"
+                aria-expanded="true" onclick="showhideHeader();">
+                <svg aria-hidden="true" viewBox="0 0 16 16" version="1.1" data-view-component="true" height="24" width="24"
+                    class="octicon octicon-three-bars">
+                    <path fill-rule="evenodd"
+                        d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    
+        <div class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex"
+            style="justify-content: space-between;">
+    
+    
+    
+            <div class="header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 js-jump-to"
+                style="margin-left: auto; margin-right: 50px !important;">
+                <div class="position-relative" id="searchbar">
+                    <!-- '"` -->
+                    <!-- </textarea></xmp> -->
+                    <form class="js-site-search-form" role="search" aria-label="Site" data-unscoped-search-url="/listings"
+                        action="/listings" accept-charset="UTF-8" method="get">
+                        <label
+                            class="form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+                            <input type="text" style="height: 30px"
+                                class="form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus"
+                                data-hotkey="s,/" name="q" value="" placeholder="Search Listings"
+                                data-unscoped-placeholder="Search Listings" data-scoped-placeholder="Search Listings"
+                                autocapitalize="off" role="combobox" aria-haspopup="listbox" aria-expanded="false"
+                                aria-autocomplete="list" aria-controls="jump-to-results" aria-label="Search Listings"
+                                data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations"
+                                spellcheck="false" autocomplete="off">
+                            <input type="hidden" class="js-site-search-type-field" name="type">
+    
+                            <div
+                                class="Box position-absolute overflow-hidden jump-to-suggestions js-jump-to-suggestions-container d-none">
+    
+                                <ul class="d-none js-jump-to-suggestions-template-container">
+    
+    
+                                    <li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-suggestion"
+                                        role="option">
+                                        <a tabindex="-1"
+                                            class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2"
+                                            href="" data-item-type="suggestion">
+                                            <div
+                                                class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
+                                                <svg height="16" width="16"
+                                                    class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none"
+                                                    title="Repository" aria-label="Repository" viewBox="0 0 16 16"
+                                                    version="1.1" role="img">
+                                                    <path fill-rule="evenodd"
+                                                        d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z">
+                                                    </path>
+                                                </svg>
+                                                <svg height="16" width="16"
+                                                    class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none"
+                                                    title="Project" aria-label="Project" viewBox="0 0 16 16" version="1.1"
+                                                    role="img">
+                                                    <path fill-rule="evenodd"
+                                                        d="M1.75 0A1.75 1.75 0 000 1.75v12.5C0 15.216.784 16 1.75 16h12.5A1.75 1.75 0 0016 14.25V1.75A1.75 1.75 0 0014.25 0H1.75zM1.5 1.75a.25.25 0 01.25-.25h12.5a.25.25 0 01.25.25v12.5a.25.25 0 01-.25.25H1.75a.25.25 0 01-.25-.25V1.75zM11.75 3a.75.75 0 00-.75.75v7.5a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75zm-8.25.75a.75.75 0 011.5 0v5.5a.75.75 0 01-1.5 0v-5.5zM8 3a.75.75 0 00-.75.75v3.5a.75.75 0 001.5 0v-3.5A.75.75 0 008 3z">
+                                                    </path>
+                                                </svg>
+                                                <svg height="16" width="16"
+                                                    class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none"
+                                                    title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1"
+                                                    role="img">
+                                                    <path fill-rule="evenodd"
+                                                        d="M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 111.06-1.06l3.04 3.04a.75.75 0 11-1.06 1.06l-3.04-3.04z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+    
+                                            <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none"
+                                                alt="" aria-label="Team" src="" width="28" height="28">
+    
+                                            <div
+                                                class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+                                            </div>
+    
+                                            <div
+                                                class="border rounded-1 flex-shrink-0 color-bg-tertiary px-1 color-text-tertiary ml-1 f6 d-none js-jump-to-badge-search">
+                                                <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+                                            </div>
+    
+                                            <div aria-hidden="true"
+                                                class="border rounded-1 flex-shrink-0 color-bg-tertiary px-1 color-text-tertiary ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+                                                Jump to
+                                                <span class="d-inline-block ml-1 v-align-middle">↵</span>
+                                            </div>
+                                        </a>
+                                    </li>
+    
+                                </ul>
+    
+                                <ul class="d-none js-jump-to-no-results-template-container">
+                                    <li
+                                        class="d-flex flex-justify-center flex-items-center f5 d-none js-jump-to-suggestion p-2">
+                                        <span class="color-text-secondary">No suggested jump to results</span>
+                                    </li>
+                                </ul>
+    
+                                <ul id="jump-to-results" role="listbox"
+                                    class="p-0 m-0 js-navigation-container jump-to-suggestions-results-container js-jump-to-suggestions-results-container js-active-navigation-container">
+                                </ul>
+    
+                            </div>
+                        </label>
+                    </form>
+                </div>
+            </div>
+    
+            <nav class="d-flex flex-column flex-md-row flex-self-stretch flex-md-self-auto" aria-label="Global">
+                <% if (user){ %>
+                    <a class="js-selected-navigation-item Header-link d-block d-md-none py-2 py-md-3 border-top border-md-top-0 border-white-fade"
+                        data-ga-click="Header, click, Nav menu - item:workspaces context:user"
+                        data-selected-links="/codespaces /codespaces" href="/app/create">
+                        <svg style="fill: #0366D6" aria-hidden="true" viewBox="0 0 16 16" version="1.1"
+                            data-view-component="true" height="16" width="16" class="octicon octicon-plus">
+                            <path fill-rule="evenodd"
+                                d="M7.75 2a.75.75 0 01.75.75V7h4.25a.75.75 0 110 1.5H8.5v4.25a.75.75 0 11-1.5 0V8.5H2.75a.75.75 0 010-1.5H7V2.75A.75.75 0 017.75 2z">
+                            </path>
+                        </svg> Create Listings
                     </a>
-                    <div class="d-flex position-relative">
-                        <a class="js-selected-navigation-item Header-link flex-auto mt-md-n3 mb-md-n3 py-2 py-md-3 mr-0 mr-md-3 border-top border-md-top-0 border-white-fade"
-                            data-ga-click="Header, click, Nav menu - item:marketplace context:user" href="/listings">
-                            Marketplace
+                    <% } %>
+                        <a class="js-selected-navigation-item Header-link mt-md-n3 mb-md-n3 py-2 py-md-3 mr-0 mr-md-3 border-top border-md-top-0 border-white-fade"
+                            href="/app/dashboard" style="border-color: white !important">
+                            Dashboard
                         </a>
-                    </div>
-
-                    <a class="js-selected-navigation-item Header-link mt-md-n3 mb-md-n3 py-2 py-md-3 mr-0 mr-md-3 border-top border-md-top-0 border-white-fade"
-                        data-ga-click="Header, click, Nav menu - item:explore" href="/listings">
-                        Explore
-                    </a>
-                    <% if (user) { %>
-                        <a class="js-selected-navigation-item Header-link d-block d-md-none py-2 py-md-3 border-top border-md-top-0 border-white-fade"
-                            data-ga-click="Header, click, Nav menu - item:workspaces context:user"
-                            data-selected-links="/codespaces /codespaces" href="/users/<%-user.id%>"
-                            style="border-color: white !important">
-                            Public Profile
+                        <div class="d-flex position-relative">
+                            <a class="js-selected-navigation-item Header-link flex-auto mt-md-n3 mb-md-n3 py-2 py-md-3 mr-0 mr-md-3 border-top border-md-top-0 border-white-fade"
+                                data-ga-click="Header, click, Nav menu - item:marketplace context:user" href="/listings">
+                                Marketplace
+                            </a>
+                        </div>
+    
+                        <a class="js-selected-navigation-item Header-link mt-md-n3 mb-md-n3 py-2 py-md-3 mr-0 mr-md-3 border-top border-md-top-0 border-white-fade"
+                            data-ga-click="Header, click, Nav menu - item:explore" href="/listings">
+                            Explore
                         </a>
-                        <a class="js-selected-navigation-item Header-link d-block d-md-none py-2 py-md-3 border-top border-md-top-0 border-white-fade"
-                            data-ga-click="Header, click, Nav menu - item:workspaces context:user"
-                            data-selected-links="/codespaces /codespaces" href="/app/listings">
-                            Active Listings
-                        </a>
-                        <a class="js-selected-navigation-item Header-link d-block d-md-none py-2 py-md-3 border-top border-md-top-0 border-white-fade"
-                            data-ga-click="Header, click, Nav menu - item:workspaces context:user"
-                            data-selected-links="/codespaces /codespaces" href="/app/transactions">
-                            Past Transactions
-                        </a>
-                        <a class="js-selected-navigation-item Header-link d-block d-md-none py-2 py-md-3 border-top border-md-top-0 border-white-fade"
-                            data-ga-click="Header, click, Nav menu - item:workspaces context:user"
-                            data-selected-links="/codespaces /codespaces" href="/app/past-listings">
-                            Past Listings
-                        </a>
-                        <a class="Header-link d-block d-md-none mr-0 mr-md-3 py-2 py-md-3 border-top border-md-top-0 border-white-fade"
-                            href="/app/settings">
-                            Settings
-                        </a>
-                        <a class="Header-link d-block d-md-none mr-0 mr-md-3 py-2 py-md-3 border-top border-md-top-0 border-white-fade"
-                            href="/app/dashboard">
-                            <img class="avatar avatar-user" src="<%-user.pfp%>" width="20" height="20">
-                            <%-user.email%>
-                        </a>
-                        <!-- '"` -->
-                        <!-- </textarea></xmp> -->
-                        <a style="color:#0366D6"
-                            class="js-selected-navigation-item Header-link mt-md-n3 mb-md-n3 py-2 py-md-3 mr-0 mr-md-3 border-top border-md-top-0 border-white-fade"
-                            href="#" onclick="signout()">
-                            Signout
-                        </a>
-                        <%} else {%>
-
+                        <% if (user) { %>
+                            <a class="js-selected-navigation-item Header-link d-block d-md-none py-2 py-md-3 border-top border-md-top-0 border-white-fade"
+                                data-ga-click="Header, click, Nav menu - item:workspaces context:user"
+                                data-selected-links="/codespaces /codespaces" href="/users/<%-user.id%>"
+                                style="border-color: white !important">
+                                Public Profile
+                            </a>
+                            <a class="js-selected-navigation-item Header-link d-block d-md-none py-2 py-md-3 border-top border-md-top-0 border-white-fade"
+                                data-ga-click="Header, click, Nav menu - item:workspaces context:user"
+                                data-selected-links="/codespaces /codespaces" href="/app/listings">
+                                Active Listings
+                            </a>
+                            <a class="js-selected-navigation-item Header-link d-block d-md-none py-2 py-md-3 border-top border-md-top-0 border-white-fade"
+                                data-ga-click="Header, click, Nav menu - item:workspaces context:user"
+                                data-selected-links="/codespaces /codespaces" href="/app/transactions">
+                                Past Transactions
+                            </a>
+                            <a class="js-selected-navigation-item Header-link d-block d-md-none py-2 py-md-3 border-top border-md-top-0 border-white-fade"
+                                data-ga-click="Header, click, Nav menu - item:workspaces context:user"
+                                data-selected-links="/codespaces /codespaces" href="/app/past-listings">
+                                Past Listings
+                            </a>
+                            <a class="Header-link d-block d-md-none mr-0 mr-md-3 py-2 py-md-3 border-top border-md-top-0 border-white-fade"
+                                href="/app/settings">
+                                Settings
+                            </a>
+                            <a class="Header-link d-block d-md-none mr-0 mr-md-3 py-2 py-md-3 border-top border-md-top-0 border-white-fade"
+                                href="/app/dashboard">
+                                <img class="avatar avatar-user" src="<%-user.pfp%>" width="20" height="20">
+                                <%-user.email%>
+                            </a>
+                            <!-- '"` -->
+                            <!-- </textarea></xmp> -->
                             <a style="color:#0366D6"
                                 class="js-selected-navigation-item Header-link mt-md-n3 mb-md-n3 py-2 py-md-3 mr-0 mr-md-3 border-top border-md-top-0 border-white-fade"
-                                href="/app/signin">
-                                Login
+                                href="#" onclick="signout()">
+                                Signout
                             </a>
-
-                            <% } %>
-        </nav>
-
+                            <%} else {%>
+    
+                                <a style="color:#0366D6"
+                                    class="js-selected-navigation-item Header-link mt-md-n3 mb-md-n3 py-2 py-md-3 mr-0 mr-md-3 border-top border-md-top-0 border-white-fade"
+                                    href="/app/signin">
+                                    Login
+                                </a>
+    
+                                <% } %>
+            </nav>
+    
+        </div>
+    
+        <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+            <a class="Header-link " href="/" data-hotkey="g d" aria-label="Homepage "
+                data-ga-click="Header, go to dashboard, icon:logo" style="position: absolute">
+                <img src="/images/smalllogo.png" width="30%" style="display: block; margin-left: auto; margin-right: auto;">
+            </a>
+    
+        </div>
+    
+        <% if (user !==null){ %>
+    
+            <div class="Header-item position-relative d-none d-md-flex">
+                <details class="details-overlay details-reset">
+                    <summary class="Header-link" aria-label="Create new…" data-ga-click="Header, create new, icon:add"
+                        aria-haspopup="menu" role="button">
+                        <svg aria-hidden="true" viewBox="0 0 16 16" version="1.1" data-view-component="true" height="16"
+                            width="16" class="octicon octicon-plus">
+                            <path fill-rule="evenodd"
+                                d="M7.75 2a.75.75 0 01.75.75V7h4.25a.75.75 0 110 1.5H8.5v4.25a.75.75 0 11-1.5 0V8.5H2.75a.75.75 0 010-1.5H7V2.75A.75.75 0 017.75 2z">
+                            </path>
+                        </svg> <span class="dropdown-caret"></span>
+                    </summary>
+                    <details-menu class="dropdown-menu dropdown-menu-sw" role="menu">
+    
+                        <a role="menuitem" class="dropdown-item" href="/app/create"
+                            data-ga-click="Header, create new repository">
+                            New Listing
+                        </a>
+    
+                    </details-menu>
+                </details>
+    
+            </div>
+    
+            <div class="Header-item position-relative mr-0 d-none d-md-flex">
+    
+                <details class="details-overlay details-reset js-feature-preview-indicator-container">
+    
+                    <summary class="Header-link" aria-label="View profile and more"
+                        data-ga-click="Header, show menu, icon:avatar" aria-haspopup="menu" role="button">
+                        <img src="<%-user.pfp%>" width="25px" height="25px" data-view-component="true" height="20"
+                            width="20" class="avatar-user avatar avatar-small">
+                        <span class="feature-preview-indicator js-feature-preview-indicator" style="top: 1px;"
+                            hidden=""></span>
+                        <span class="dropdown-caret"></span>
+                    </summary>
+                    <details-menu class="dropdown-menu dropdown-menu-sw" style="width: 180px" src="/users/77520157/menu"
+                        preload="" role="menu">
+                        <div class="header-nav-current-user css-truncate"><a role="menuitem"
+                                class="no-underline user-profile-link px-3 pt-2 pb-2 mb-n2 mt-n1 d-block"
+                                href="/app/dashboard">Signed
+                                in
+                                as <strong class="css-truncate-target">
+                                    <%-user.username%> <br>
+                                        <p style="font-size: 10px;">(<%-user.email%>) </p>
+                                </strong></a></div>
+    
+                        <div class="pl-3 pr-3 f6 user-status-container js-user-status-context lh-condensed"
+                            data-url="/users/status?compact=1&amp;link_mentions=0&amp;truncate=1">
+    
+    
+                        </div>
+                        <div role="none" class="dropdown-divider"></div>
+    
+                        <a role="menuitem" class="dropdown-item" href="/users/<%-user.id%>">Your public profile</a>
+    
+                        <a role="menuitem" class="dropdown-item" href="/app/listings">Your active listings</a>
+    
+                        <a role="menuitem" class="dropdown-item" href="/app/transactions">Your past transactions</a>
+    
+                        <a role="menuitem" class="dropdown-item" href="/app/past-listings">Your past listings</a>
+    
+    
+    
+    
+                        <div role="none" class="dropdown-divider"></div>
+    
+    
+                        <a role="menuitem" class="dropdown-item" href="/app/settings"
+                            data-ga-click="Header, go to settings, icon:settings">Settings</a>
+                        <div role="none" class="dropdown-divider"></div>
+    
+    
+                        <form class="logout-form" accept-charset="UTF-8" method="post">
+                            <button type="submit" class="dropdown-item dropdown-signout" onclick="signout()">
+                                Sign out
+                            </button>
+                        </form>
+                    </details-menu>
+                </details>
+    
+            </div>
+            <% } %>
+    </header>
     </div>
 
-    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
-        <a class="Header-link " href="/" data-hotkey="g d" aria-label="Homepage "
-            data-ga-click="Header, go to dashboard, icon:logo" style="position: absolute">
-            <img src="/images/smalllogo.png" width="30%" style="display: block; margin-left: auto; margin-right: auto;">
-        </a>
-
-    </div>
-
-    <% if (user !==null){ %>
-
-        <div class="Header-item position-relative d-none d-md-flex">
-            <details class="details-overlay details-reset">
-                <summary class="Header-link" aria-label="Create new…" data-ga-click="Header, create new, icon:add"
-                    aria-haspopup="menu" role="button">
-                    <svg aria-hidden="true" viewBox="0 0 16 16" version="1.1" data-view-component="true" height="16"
-                        width="16" class="octicon octicon-plus">
-                        <path fill-rule="evenodd"
-                            d="M7.75 2a.75.75 0 01.75.75V7h4.25a.75.75 0 110 1.5H8.5v4.25a.75.75 0 11-1.5 0V8.5H2.75a.75.75 0 010-1.5H7V2.75A.75.75 0 017.75 2z">
-                        </path>
-                    </svg> <span class="dropdown-caret"></span>
-                </summary>
-                <details-menu class="dropdown-menu dropdown-menu-sw" role="menu">
-
-                    <a role="menuitem" class="dropdown-item" href="/app/create"
-                        data-ga-click="Header, create new repository">
-                        New Listing
-                    </a>
-
-                </details-menu>
-            </details>
-
-        </div>
-
-        <div class="Header-item position-relative mr-0 d-none d-md-flex">
-
-            <details class="details-overlay details-reset js-feature-preview-indicator-container">
-
-                <summary class="Header-link" aria-label="View profile and more"
-                    data-ga-click="Header, show menu, icon:avatar" aria-haspopup="menu" role="button">
-                    <img src="<%-user.pfp%>" width="25px" height="25px" data-view-component="true" height="20"
-                        width="20" class="avatar-user avatar avatar-small">
-                    <span class="feature-preview-indicator js-feature-preview-indicator" style="top: 1px;"
-                        hidden=""></span>
-                    <span class="dropdown-caret"></span>
-                </summary>
-                <details-menu class="dropdown-menu dropdown-menu-sw" style="width: 180px" src="/users/77520157/menu"
-                    preload="" role="menu">
-                    <div class="header-nav-current-user css-truncate"><a role="menuitem"
-                            class="no-underline user-profile-link px-3 pt-2 pb-2 mb-n2 mt-n1 d-block"
-                            href="/app/dashboard">Signed
-                            in
-                            as <strong class="css-truncate-target">
-                                <%-user.username%> <br>
-                                    <p style="font-size: 10px;">(<%-user.email%>) </p>
-                            </strong></a></div>
-
-                    <div class="pl-3 pr-3 f6 user-status-container js-user-status-context lh-condensed"
-                        data-url="/users/status?compact=1&amp;link_mentions=0&amp;truncate=1">
-
-
-                    </div>
-                    <div role="none" class="dropdown-divider"></div>
-
-                    <a role="menuitem" class="dropdown-item" href="/users/<%-user.id%>">Your public profile</a>
-
-                    <a role="menuitem" class="dropdown-item" href="/app/listings">Your active listings</a>
-
-                    <a role="menuitem" class="dropdown-item" href="/app/transactions">Your past transactions</a>
-
-                    <a role="menuitem" class="dropdown-item" href="/app/past-listings">Your past listings</a>
-
-
-
-
-                    <div role="none" class="dropdown-divider"></div>
-
-
-                    <a role="menuitem" class="dropdown-item" href="/app/settings"
-                        data-ga-click="Header, go to settings, icon:settings">Settings</a>
-                    <div role="none" class="dropdown-divider"></div>
-
-
-                    <form class="logout-form" accept-charset="UTF-8" method="post">
-                        <button type="submit" class="dropdown-item dropdown-signout" onclick="signout()">
-                            Sign out
-                        </button>
-                    </form>
-                </details-menu>
-            </details>
-
-        </div>
-        <% } %>
-</header>
 
 </html>
 
