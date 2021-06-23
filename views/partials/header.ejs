@@ -40,6 +40,7 @@
                         <label
                             class="form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
                             <input type="text" style="height: 30px"
+                                id="searchquery"
                                 class="form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus"
                                 data-hotkey="s,/" name="q" value="" placeholder="Search Listings"
                                 data-unscoped-placeholder="Search Listings" data-scoped-placeholder="Search Listings"
@@ -47,8 +48,6 @@
                                 aria-autocomplete="list" aria-controls="jump-to-results" aria-label="Search Listings"
                                 data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations"
                                 spellcheck="false" autocomplete="off">
-                            <input type="hidden" class="js-site-search-type-field" name="type">
-    
                             <div
                                 class="Box position-absolute overflow-hidden jump-to-suggestions js-jump-to-suggestions-container d-none">
     

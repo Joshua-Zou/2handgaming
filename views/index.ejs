@@ -104,6 +104,10 @@
 </html>
 <script>
   function focusOnSearch() {
+    let header = document.querySelector("[role='banner']");
+    if (!header.classList.contains("open")) {
+            header.classList = "Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on"
+    }
     document.getElementById("searchquery").focus();
     document.getElementById("searchquery").select();
   }
