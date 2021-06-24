@@ -128,7 +128,8 @@ router.post('/changePfp', async (req, res) => {
         return res.send("You didn't upload any files!");
     }
     let image = req.files.image;
-    if (!image.name.toString().includes(".png") && !image.name.toString().includes(".jpg")){
+    console.log(image.name)
+    if (!image.name.toString().toLowerCase().includes(".png") && !image.name.toString().toLowerCase().includes(".jpg")){
         return res.render("error", {error: "that was not a supported file type! Only png and jpg files are supported", errorCode: "415"})
     }
     let randomid = makeid(10)
