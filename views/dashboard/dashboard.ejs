@@ -81,9 +81,7 @@
   }
   %>
   <%
-  console.log(x)
     for (  var i = x; i< 5; i++ ){
-      console.log(i)
       %>
       <span class="far fa-star"></span>
       <%
@@ -92,7 +90,7 @@
 
 </div>
 <div class="ratings" style="padding-top: 5%;">
-  <span class="selling-activity-columns list-item"><a class="me-fake-button  fake-btn fake-btn--small fake-btn--primary" href="http://www.ebay.com/sl/sell" _sp="p2486981.m5004.l9637" data-url="http://www.ebay.com/sl/sell" target="" data-ebayui="" type="button">List an item</a> </span>
+  <span class="selling-activity-columns list-item"><a class="me-fake-button  fake-btn fake-btn--small fake-btn--primary" href="/app/create" type="button">List an item</a> </span>
 </div>
   <img src="<%-user.pfp%>"></img>
   <form ref='uploadForm' id='uploadForm' action='/api/changePfp' method='post' encType="multipart/form-data">
