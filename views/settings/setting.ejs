@@ -210,17 +210,24 @@
         document.getElementById(pages[page]).click()
     }
 
-
     document.getElementById("profile-tab").addEventListener("click", function(){
+        document.body.innerHTML = "";
+        document.body.style.display = "none !important";
         window.location.href="?page=profile"
     })
     document.getElementById("password-tab").addEventListener("click", function(){
+        document.body.innerHTML = "";
+        document.body.style.display = "none !important";
         window.location.href="?page=security"
     })
     document.getElementById("general-tab").addEventListener("click", function(){
+        document.body.innerHTML = "";
+        document.body.style.display = "none !important";
         window.location.href="?page=general"
     })
     document.getElementById("notification-tab").addEventListener("click", function(){
+        document.body.innerHTML = "";
+        document.body.style.display = "none !important";
         window.location.href="?page=notifications"
     })
 </script>
