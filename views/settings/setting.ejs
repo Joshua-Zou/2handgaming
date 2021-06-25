@@ -68,37 +68,49 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>First Name</label>
-                                        <input type="text" class="form-control" value="<%-user.name.first%>">
+                                        <input type="text" class="form-control profile" value="<%-user.name.first%>"
+                                            id="firstname">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Middle Name</label>
-                                        <input type="text" class="form-control" value="<%-user.name.middle%>">
+                                        <input type="text" class="form-control profile" value="<%-user.name.middle%>"
+                                            id="middlename">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Last Name</label>
-                                        <input type="text" class="form-control" value="<%-user.name.last%>">
+                                        <input type="text" class="form-control profile" value="<%-user.name.last%>"
+                                            id="lastname">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Phone number</label>
-                                        <input type="text" class="form-control" value="<%-user.phone%>">
+                                        <input type="text" class="form-control profile" value="<%-user.phone%>"
+                                            id="phone">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input type="text" class="form-control profile" value="<%-user.username%>"
+                                            id="username">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Bio</label>
-                                        <textarea class="form-control" rows="4"><%-user.bio%></textarea>
+                                        <textarea class="form-control profile" rows="4"
+                                            id="bio"><%-user.bio%></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <button class="btn btn-primary">Update</button>
-                                <button class="btn btn-light">Cancel</button>
+                                <button class="btn btn-primary" onclick="updateProfile();">Update</button>
+                                <button class="btn btn-light" onclick="window.location.reload();">Cancel</button>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
@@ -187,6 +199,19 @@
                                 <button class="btn btn-light">Cancel</button>
                             </div>
                         </div>
+                        <div class="centerY" style="position: absolute; bottom: 0px; left: 50%;">
+                            <div style="background-color: rgb(73, 73, 73); transition: all .3s ease-out; width: 50em; transform: translate(-50%, 0px); border-radius: 15px; padding: 20px; position: fixed; bottom: -150px; "
+                                class="centerY" id="errordiv">
+                                <div class="message-3k2yCR flexChild-faoVW3 centerY" style="color: whitesmoke;"><span
+                                        class="centerY" style="width: fit-content; max-width: 90vw;" id="errormessage">An un-caught error occured!</span>
+                                </div>
+                                <div style="flex: 1 1 auto; padding: 10px;"><button
+                                        class="button-38aScr filledGreen-3E574O buttonHeightTall-35JAaW centerY"
+                                        type="submit" style="width: 100px;" onclick="hideError();">
+                                        <div style="flex: 1 1 auto;"><span>Sure</span></div>
+                                    </button></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -222,6 +247,68 @@
 
 </html>
 <script>
+
+
+    function updateProfile() {
+        showingErr = true;
+        let first = document.getElementById("firstname");
+        let middle = document.getElementById("middlename");
+        let last = document.getElementById("lastname");
+        let phone = document.getElementById("phone");
+        let bio = document.getElementById("bio");
+        let username = document.getElementById("username");
+        if (first.value.replace(/ /g, "").length === 0) return showError("First name must not be blank! (We're pretty sure you have a first name)");
+        else if (last.value.replace(/ /g, "").length === 0) return showError("Last name must not be blank! (We're pretty sure you have one  <small> unless you're from Iceland</small>)");
+        else if (username.value.replace(/ /g, "").length < 5) return showError("Usernames must have 5 or more characters!");
+        
+        let body = {
+            first: first.value,
+            middle: middle.value,
+            last: last.value,
+            phone: phone.value,
+            bio: bio.value,
+            username: username.value
+        }
+        fetch("/api/settings", {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }).then(result => result.text()).then(text => {
+            if (text !== "good") return showError(text);
+            else{
+                window.nextreload = true;
+                showError("Your settings have been updated!")
+            }
+        })
+        //showError("help me")
+    }
+    var showingErr = false;
+    function showError(text) {
+        showingErr = true;
+        document.getElementById("errormessage").innerHTML = text;
+        document.getElementById("errordiv").style.bottom = "20px";
+        setTimeout(next, 400)
+        function next(){
+            document.getElementById("errordiv").style.bottom = "10px";
+            showingErr = false;
+        }
+    }
+    function hideError() {
+        if (showingErr === true) return;
+        document.getElementById("errordiv").style.bottom = "-150px";
+        document.getElementById("errordiv").style.transition = "all .2s ease-out";
+        setTimeout(next, 400)
+        function next(){
+            document.getElementById("errordiv").style.transition = "all .3s ease-out";
+            if (window.nextreload === true){
+                delete window.nextreload;
+                window.location.reload();
+            }
+        }
+    }
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
         var vars = query.split('&');
@@ -291,15 +378,60 @@
     }
 
     window.addEventListener('click', function (e) {
-        if (document.getElementById('selectimagemodal').contains(e.target)) {
+        if (document.getElementById('selectimagemodal').contains(e.target) || document.getElementById('errordiv').contains(e.target)) {
             // Clicked in box
         } else {
             // Clicked outside the box
-            document.getElementById('selectimagemodal').classList.add("invisible")
+            document.getElementById('selectimagemodal').classList.add("invisible");
+            hideError();
         }
     });
 </script>
 <style>
+    .button-38aScr {
+        position: relative;
+        display: inline-block;
+        background: none;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        border: none;
+        font-family: Whitney, Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-weight: 400;
+        line-height: 18px;
+        padding: 0 20px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-align: center;
+        -webkit-transition: all .17s ease-out;
+        transition: all .17s ease-out;
+        white-space: nowrap;
+        border-radius: 12px !important;
+    }
+
+
+
+    .buttonHeightTall-35JAaW {
+        padding: 11px 20px
+    }
+
+
+    .unpaired-31HHvP {
+        border-radius: 3px
+    }
+
+    .filledGreen-3E574O {
+        background: hsl(139, 47.3%, 43.9%)
+    }
+
+    .filledGreen-3E574O,
+    .filledRed-S1nf7r {
+        color: #fff
+    }
+
+
     .Box--overlay {
         width: 448px;
         margin-right: auto;
@@ -365,9 +497,9 @@
     }
 
     .centerY {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
+        display: block !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 
     .newpfp {
