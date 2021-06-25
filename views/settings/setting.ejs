@@ -18,9 +18,9 @@
                         <div class="p-4">
                             <div class="img-circle text-center mb-3">
                                 <img src="<%-user.pfp%>" alt="public profile picture" class="shadow">
-                                <div class="position-relative color-bg-primary rounded-2 color-text-primary px-2 py-1 left-0 bottom-0 ml-2 mb-2 border pointer"
+                                <div onclick="clickbutton('choosefileimage')" class="position-relative color-bg-primary rounded-2 color-text-primary px-2 py-1 left-0 bottom-0 ml-2 mb-2 border pointer"
                                     style="width: 70px; left: 100px; bottom: 20px; background-color: #2D333B; color: whitesmoke;">
-                                    <label for="choosefileimage" style="margin: 0; color: whitesmoke;" class="pointer">
+                                    <label style="margin: 0; color: whitesmoke;" class="pointer">
                                         <svg aria-hidden="true" viewBox="0 0 16 16" version="1.1"
                                             data-view-component="true" height="16" width="16"
                                             class="octicon octicon-pencil" style="fill: whitesmoke;">
@@ -247,8 +247,20 @@
 
 </html>
 <script>
+var changed = false;
 
 
+window.addEventListener("beforeunload", function (e) {
+    if (changed === true){
+        var confirmationMessage = "\o/";
+
+        (e || window.event).returnValue = confirmationMessage; 
+        return confirmationMessage;             
+    }
+    });
+$("input, textarea").on("input", function(){
+    changed = true;
+})
     function updateProfile() {
         showingErr = true;
         let first = document.getElementById("firstname");
@@ -280,6 +292,7 @@
             if (text !== "good") return showError(text);
             else{
                 window.nextreload = true;
+                changed = false;
                 showError("Your settings have been updated!")
             }
         })
@@ -358,7 +371,9 @@
         handleFiles(input.files)
         document.getElementById("selectimagemodal").classList.remove("invisible")
     }
-
+function clickbutton(buttonid){
+    document.getElementById(buttonid).click();
+}
     function handleFiles(files) {
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
