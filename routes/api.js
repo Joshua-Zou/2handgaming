@@ -52,6 +52,9 @@ router.post("/login", async (req, res) => {
         else return res.send("Email/Password is incorrect");
     } else {
         req.session.user = user.id;
+        if (req.body.rememberme.toString() !== "true"){
+            req.sessionOptions.maxAge = 86400000;
+        }
         return res.send("good")
     }
 })
