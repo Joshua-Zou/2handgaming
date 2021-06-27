@@ -18,7 +18,8 @@
                         <div class="p-4">
                             <div class="img-circle text-center mb-3">
                                 <img src="<%-user.pfp%>" alt="public profile picture" class="shadow">
-                                <div onclick="clickbutton('choosefileimage')" class="position-relative color-bg-primary rounded-2 color-text-primary px-2 py-1 left-0 bottom-0 ml-2 mb-2 border pointer"
+                                <div onclick="clickbutton('choosefileimage')"
+                                    class="position-relative color-bg-primary rounded-2 color-text-primary px-2 py-1 left-0 bottom-0 ml-2 mb-2 border pointer"
                                     style="width: 70px; left: 100px; bottom: 20px; background-color: #2D333B; color: whitesmoke;">
                                     <label style="margin: 0; color: whitesmoke;" class="pointer">
                                         <svg aria-hidden="true" viewBox="0 0 16 16" version="1.1"
@@ -119,7 +120,11 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Old password</label>
-                                        <input type="password" class="form-control">
+                                        <br>
+                                        <div class=password-form>
+                                            <input type="password" class="form-control" id="old_password"> 
+                                            <a class="show-password pointer" onclick="if (this.parentElement.children[0].type==='text')this.parentElement.children[0].type='password'; else this.parentElement.children[0].type='text'">Show</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -127,18 +132,26 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>New password</label>
-                                        <input type="password" class="form-control">
+                                        <br>
+                                        <div class="password-form">
+                                            <input type="password" class="form-control new_password">
+                                            <a class="show-password pointer" onclick="if (this.parentElement.children[0].type==='text')this.parentElement.children[0].type='password'; else this.parentElement.children[0].type='text'">Show</a>    
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Confirm new password</label>
-                                        <input type="password" class="form-control">
+                                        <br>
+                                        <div class="password-form">
+                                            <input type="password" class="form-control new_password">
+                                            <a class="show-password pointer" onclick="if (this.parentElement.children[0].type==='text')this.parentElement.children[0].type='password'; else this.parentElement.children[0].type='text'">Show</a>    
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <button class="btn btn-primary">Update</button>
+                                <button class="btn btn-primary" onclick="updatePassword();">Update</button>
                                 <button class="btn btn-light">Cancel</button>
                             </div>
                         </div>
@@ -203,7 +216,8 @@
                             <div style="background-color: rgb(73, 73, 73); transition: all .3s ease-out; width: 50em; transform: translate(-50%, 0px); border-radius: 15px; padding: 20px; position: fixed; bottom: -150px; "
                                 class="centerY" id="errordiv">
                                 <div class="message-3k2yCR flexChild-faoVW3 centerY" style="color: whitesmoke;"><span
-                                        class="centerY" style="width: fit-content; max-width: 90vw;" id="errormessage">An un-caught error occured!</span>
+                                        class="centerY" style="width: fit-content; max-width: 90vw;"
+                                        id="errormessage">An un-caught error occured!</span>
                                 </div>
                                 <div style="flex: 1 1 auto; padding: 10px;"><button
                                         class="button-38aScr filledGreen-3E574O buttonHeightTall-35JAaW centerY"
@@ -247,20 +261,44 @@
 
 </html>
 <script>
-var changed = false;
+    var changed = false;
 
-
-window.addEventListener("beforeunload", function (e) {
-    if (changed === true){
-        var confirmationMessage = "\o/";
-
-        (e || window.event).returnValue = confirmationMessage; 
-        return confirmationMessage;             
+    async function updatePassword() {
+        let oldPass = document.getElementById("old_password").value;
+        let newPass1 = document.getElementsByClassName("new_password")[0].value;
+        let newPass2 = document.getElementsByClassName("new_password")[1].value;
+        if (newPass1 !== newPass2) {
+            return showError("New passwords do not match!")
+        }
+        let result = await fetch('/api/resetPass', {
+            method: 'POST',
+            body: JSON.stringify({ code: oldPass, password: newPass1, useOldPassword: true, email: '<%-user.email%>' }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+        result = await result.text();
+        console.log(result)
+        if (result !== "good") {
+            return showError(result)
+        } else {
+            changed = false;
+            showError("Password has been reset!");
+        }
     }
+
+    window.addEventListener("beforeunload", function (e) {
+        if (changed === true) {
+            var confirmationMessage = "\o/";
+
+            (e || window.event).returnValue = confirmationMessage;
+            return confirmationMessage;
+        }
     });
-$("input, textarea").on("input", function(){
-    changed = true;
-})
+    $("input, textarea").on("input", function () {
+        changed = true;
+    })
     function updateProfile() {
         showingErr = true;
         let first = document.getElementById("firstname");
@@ -272,7 +310,7 @@ $("input, textarea").on("input", function(){
         if (first.value.replace(/ /g, "").length === 0) return showError("First name must not be blank! (We're pretty sure you have a first name)");
         else if (last.value.replace(/ /g, "").length === 0) return showError("Last name must not be blank! (We're pretty sure you have one  <small> unless you're from Iceland</small>)");
         else if (username.value.replace(/ /g, "").length < 5) return showError("Usernames must have 5 or more characters!");
-        
+
         let body = {
             first: first.value,
             middle: middle.value,
@@ -290,7 +328,7 @@ $("input, textarea").on("input", function(){
             },
         }).then(result => result.text()).then(text => {
             if (text !== "good") return showError(text);
-            else{
+            else {
                 window.nextreload = true;
                 changed = false;
                 showError("Your settings have been updated!")
@@ -304,7 +342,7 @@ $("input, textarea").on("input", function(){
         document.getElementById("errormessage").innerHTML = text;
         document.getElementById("errordiv").style.bottom = "20px";
         setTimeout(next, 400)
-        function next(){
+        function next() {
             document.getElementById("errordiv").style.bottom = "10px";
             showingErr = false;
         }
@@ -314,9 +352,9 @@ $("input, textarea").on("input", function(){
         document.getElementById("errordiv").style.bottom = "-150px";
         document.getElementById("errordiv").style.transition = "all .2s ease-out";
         setTimeout(next, 400)
-        function next(){
+        function next() {
             document.getElementById("errordiv").style.transition = "all .3s ease-out";
-            if (window.nextreload === true){
+            if (window.nextreload === true) {
                 delete window.nextreload;
                 window.location.reload();
             }
@@ -371,9 +409,9 @@ $("input, textarea").on("input", function(){
         handleFiles(input.files)
         document.getElementById("selectimagemodal").classList.remove("invisible")
     }
-function clickbutton(buttonid){
-    document.getElementById(buttonid).click();
-}
+    function clickbutton(buttonid) {
+        document.getElementById(buttonid).click();
+    }
     function handleFiles(files) {
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
@@ -539,4 +577,17 @@ function clickbutton(buttonid){
         position: relative;
         top: 1px;
     }
+
+    .password-form {
+        display: -webkit-inline-box;
+    }
+
+    .show-password {
+        color: #d43d3d !important;
+        position: relative;
+        padding-left: 10px;
+        top: 7px;
+        font-size: small;
+    }
+
 </style>

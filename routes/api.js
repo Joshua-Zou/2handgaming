@@ -8,7 +8,7 @@ var zxcvbn = require('zxcvbn');
 const fileUpload = require("express-fileupload");
 var cloudinary = require("cloudinary");
 var Filter = require('bad-words'),
-filter = new Filter();
+    filter = new Filter();
 router.use(fileUpload({
     limits: {
         fileSize: 1000000 //1mb
@@ -52,7 +52,7 @@ router.post("/login", async (req, res) => {
         else return res.send("Email/Password is incorrect");
     } else {
         req.session.user = user.id;
-        if (req.body.rememberme.toString() !== "true"){
+        if (req.body.rememberme.toString() !== "true") {
             req.sessionOptions.maxAge = 86400000;
         }
         return res.send("good")
@@ -106,20 +106,42 @@ router.post('/forgotpassword', async (req, res) => {
 })
 router.post('/resetPass', async (req, res) => {
     if (!req.body.code || !req.body.password) return res.send("Invalid code!");
-    var result = zxcvbn(req.body.password);
-    if (result.score < 3) return res.send("Password strength is too low! " + result.feedback.suggestions);
-    let dbemail = await db.collection("emails").findOne({ id: req.body.code });
-    let user = await db.collection("users").findOne({ email: dbemail.email });
-
-    const hmac = createHmac('sha512', req.body.password);
-    hmac.update(JSON.stringify(user.email));
-    const signature = hmac.digest('hex');
-    await db.collection("users").updateOne({ id: user.id }, {
-        $set: {
-            signature: signature
-        }
-    })
-    await db.collection("emails").deleteOne({ id: req.body.code })
+    if (req.body.useOldPassword === true){
+        const hmacx = createHmac('sha512', req.body.code);
+        hmacx.update(JSON.stringify(req.body.email));
+        const signaturex = hmacx.digest('hex');
+        let userz = await db.collection("users").findOne({ signature: signaturex });
+        if (!userz) return res.send("Password is invalid! <a href='/signin'>Forgot</a> it?")
+        if (userz.id === req.session.user) {
+            var result = zxcvbn(req.body.password);
+            if (result.score < 3) return res.send("Password strength is too low! " + result.feedback.suggestions);
+    
+            const hmac = createHmac('sha512', req.body.password);
+            hmac.update(JSON.stringify(userz.email));
+            const signature = hmac.digest('hex');
+            await db.collection("users").updateOne({ id: userz.id }, {
+                $set: {
+                    signature: signature
+                }
+            })
+            req.session.user = null;
+        }else return res.send("Password is invalid! <a href='/signin'>Forgot</a> it?")
+    } else{
+        var result = zxcvbn(req.body.password);
+        if (result.score < 3) return res.send("Password strength is too low! " + result.feedback.suggestions);
+        let dbemail = await db.collection("emails").findOne({ id: req.body.code });
+        let user = await db.collection("users").findOne({ email: dbemail.email });
+    
+        const hmac = createHmac('sha512', req.body.password);
+        hmac.update(JSON.stringify(user.email));
+        const signature = hmac.digest('hex');
+        await db.collection("users").updateOne({ id: user.id }, {
+            $set: {
+                signature: signature
+            }
+        })
+        await db.collection("emails").deleteOne({ id: req.body.code })
+    }
     return res.send("good")
 })
 router.post('/signout', (req, res) => {
@@ -183,16 +205,18 @@ router.post('/settings', async (req, res) => {
     else if (username.replace(/ /g, "").length < 5) return res.send("Usernames must have 5 or more characters!");
     if (filter.isProfane(entireName) === true || filter.isProfane(username) === true || filter.isProfane(bio) === true) return res.send("No bad words, please")
     if (phone !== "not set" && Number(phone.replace(/ /g, "")).toString().toLowerCase() === "nan" || phone.replace(/ /g, "").length > 15) return res.send("your phone number must be valid!")
-    await db.collection("users").updateOne({id: req.session.user}, {$set: {
-        name: {
-            first: first,
-            middle: middle,
-            last: last
-        },
-        phone: phone,
-        username: username,
-        bio: bio
-    }})
+    await db.collection("users").updateOne({ id: req.session.user }, {
+        $set: {
+            name: {
+                first: first,
+                middle: middle,
+                last: last
+            },
+            phone: phone,
+            username: username,
+            bio: bio
+        }
+    })
     return res.send("good");
 })
 async function sendEmail(reciever, subject, html) {
