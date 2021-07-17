@@ -106,7 +106,7 @@ router.post('/forgotpassword', async (req, res) => {
 })
 router.post('/resetPass', async (req, res) => {
     if (!req.body.code || !req.body.password) return res.send("Invalid code!");
-    if (req.body.useOldPassword === true){
+    if (req.body.useOldPassword === true) {
         const hmacx = createHmac('sha512', req.body.code);
         hmacx.update(JSON.stringify(req.body.email));
         const signaturex = hmacx.digest('hex');
@@ -115,7 +115,7 @@ router.post('/resetPass', async (req, res) => {
         if (userz.id === req.session.user) {
             var result = zxcvbn(req.body.password);
             if (result.score < 3) return res.send("Password strength is too low! " + result.feedback.suggestions);
-    
+
             const hmac = createHmac('sha512', req.body.password);
             hmac.update(JSON.stringify(userz.email));
             const signature = hmac.digest('hex');
@@ -125,13 +125,13 @@ router.post('/resetPass', async (req, res) => {
                 }
             })
             req.session.user = null;
-        }else return res.send("Password is invalid! <a href='/signin'>Forgot</a> it?")
-    } else{
+        } else return res.send("Password is invalid! <a href='/signin'>Forgot</a> it?")
+    } else {
         var result = zxcvbn(req.body.password);
         if (result.score < 3) return res.send("Password strength is too low! " + result.feedback.suggestions);
         let dbemail = await db.collection("emails").findOne({ id: req.body.code });
         let user = await db.collection("users").findOne({ email: dbemail.email });
-    
+
         const hmac = createHmac('sha512', req.body.password);
         hmac.update(JSON.stringify(user.email));
         const signature = hmac.digest('hex');
@@ -218,6 +218,31 @@ router.post('/settings', async (req, res) => {
         }
     })
     return res.send("good");
+})
+router.post('/changeNotifications', async (req, res) => {
+    if (!req.session.user) return res.send("Your current session has expired! <a href='/app/signin'>signin</a> again!");
+    console.log(req.body)
+    var bad = false;
+    Object.entries(req.body).forEach(
+        ([key, value]) => {
+            if (typeof req.body[key] !== "boolean") {
+                bad = true;
+            }
+        }
+    );
+    if (bad === true) {
+        return res.send("Did someone tell you to copy paste anything in the terminal :/ please do not use hacked clients btw.");
+    }
+    await db.collection("users").updateOne({ id: req.session.user }, {
+        $set: {
+            notifications: {
+                buy: req.body.buyItemNotif,
+                view: req.body.lookItemNotif,
+                suggestions: req.body.suggestedItems
+            }
+        }
+    })
+    return res.send("good")
 })
 async function sendEmail(reciever, subject, html) {
     var transporter = nodemailer.createTransport({

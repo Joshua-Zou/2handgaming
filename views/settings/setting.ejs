@@ -49,11 +49,6 @@
                                 <i class="fa fa-key text-center mr-1"></i>
                                 Password & Security
                             </a>
-                            <a class="nav-link" id="general-tab" data-toggle="pill" href="#general" role="tab"
-                                aria-controls="general" aria-selected="false">
-                                <i class="fa fa-tv text-center mr-1"></i>
-                                General
-                            </a>
                             <a class="nav-link" id="notification-tab" data-toggle="pill" href="#notification" role="tab"
                                 aria-controls="notification" aria-selected="false">
                                 <i class="fa fa-bell text-center mr-1"></i>
@@ -122,8 +117,9 @@
                                         <label>Old password</label>
                                         <br>
                                         <div class=password-form>
-                                            <input type="password" class="form-control" id="old_password"> 
-                                            <a class="show-password pointer" onclick="if (this.parentElement.children[0].type==='text')this.parentElement.children[0].type='password'; else this.parentElement.children[0].type='text'">Show</a>
+                                            <input type="password" class="form-control" id="old_password">
+                                            <a class="show-password pointer"
+                                                onclick="if (this.parentElement.children[0].type==='text')this.parentElement.children[0].type='password'; else this.parentElement.children[0].type='text'">Show</a>
                                         </div>
                                     </div>
                                 </div>
@@ -135,7 +131,8 @@
                                         <br>
                                         <div class="password-form">
                                             <input type="password" class="form-control new_password">
-                                            <a class="show-password pointer" onclick="if (this.parentElement.children[0].type==='text')this.parentElement.children[0].type='password'; else this.parentElement.children[0].type='text'">Show</a>    
+                                            <a class="show-password pointer"
+                                                onclick="if (this.parentElement.children[0].type==='text')this.parentElement.children[0].type='password'; else this.parentElement.children[0].type='text'">Show</a>
                                         </div>
                                     </div>
                                 </div>
@@ -145,71 +142,61 @@
                                         <br>
                                         <div class="password-form">
                                             <input type="password" class="form-control new_password">
-                                            <a class="show-password pointer" onclick="if (this.parentElement.children[0].type==='text')this.parentElement.children[0].type='password'; else this.parentElement.children[0].type='text'">Show</a>    
+                                            <a class="show-password pointer"
+                                                onclick="if (this.parentElement.children[0].type==='text')this.parentElement.children[0].type='password'; else this.parentElement.children[0].type='text'">Show</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div>
                                 <button class="btn btn-primary" onclick="updatePassword();">Update</button>
-                                <button class="btn btn-light">Cancel</button>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="general" role="tabpanel" aria-labelledby="general-tab">
-                            <h3 class="mb-4">General Settings</h3>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="app-check">
-                                            <label class="form-check-label" for="app-check">
-                                                App check
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-                                            <label class="form-check-label" for="defaultCheck2">
-                                                Lorem ipsum dolor sit.
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <button class="btn btn-primary">Update</button>
-                                <button class="btn btn-light">Cancel</button>
+                                <button class="btn btn-light" onclick="window.location.reload()">Cancel</button>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
                             <h3 class="mb-4">Notification Settings</h3>
                             <div class="form-group">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="notification1">
-                                    <label class="form-check-label" for="notification1">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum accusantium
-                                        accusamus, neque cupiditate quis
-                                    </label>
+                                    <% if (user.notifications.buy===true){ %>
+                                        <input class="form-check-input" type="checkbox" value="" id="notification1"
+                                            checked>
+                                        <% }else{ %>
+                                            <input class="form-check-input" type="checkbox" value="" id="notification1">
+                                            <% } %>
+                                                <label class="form-check-label" for="notification1">
+                                                    I want to get notified when someone buys my item
+                                                </label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="notification2">
-                                    <label class="form-check-label" for="notification2">
-                                        hic nesciunt repellat perferendis voluptatum totam porro eligendi.
-                                    </label>
+                                    <% if (user.notifications.view===true){ %>
+                                        <input class="form-check-input" type="checkbox" value="" id="notification2"
+                                            checked>
+                                        <% }else{ %>
+                                            <input class="form-check-input" type="checkbox" value="" id="notification2">
+                                            <% } %>
+                                                <label class="form-check-label" for="notification2">
+                                                    I want to get notified when someone looks at my item
+                                                </label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="notification3">
-                                    <label class="form-check-label" for="notification3">
-                                        commodi fugiat molestiae tempora corporis. Sed dignissimos suscipit
-                                    </label>
+                                    <% if (user.notifications.suggestions===true){ %>
+                                        <input class="form-check-input" type="checkbox" value="" id="notification3"
+                                            checked>
+                                        <% }else{ %>
+                                            <input class="form-check-input" type="checkbox" value="" id="notification3">
+                                            <% } %>
+                                                <label class="form-check-label" for="notification3">
+                                                    I want to get notified about cool things that I might want
+                                                </label>
                                 </div>
                             </div>
                             <div>
-                                <button class="btn btn-primary">Update</button>
-                                <button class="btn btn-light">Cancel</button>
+                                <button class="btn btn-primary" onclick="updateNotifSettings();">Update</button>
+                                <button class="btn btn-light" onclick="window.location.reload();">Cancel</button>
                             </div>
                         </div>
                         <div class="centerY" style="position: absolute; bottom: 0px; left: 50%;">
@@ -375,7 +362,6 @@
         profile: "profile-tab",
         security: "password-tab",
         notifications: "notification-tab",
-        general: "general-tab"
     }
     let page = getQueryVariable("page");
     console.log(page)
@@ -392,11 +378,6 @@
         document.body.innerHTML = "";
         document.body.style.display = "none !important";
         window.location.href = "?page=security"
-    })
-    document.getElementById("general-tab").addEventListener("click", function () {
-        document.body.innerHTML = "";
-        document.body.style.display = "none !important";
-        window.location.href = "?page=general"
     })
     document.getElementById("notification-tab").addEventListener("click", function () {
         document.body.innerHTML = "";
@@ -439,6 +420,29 @@
             hideError();
         }
     });
+
+    async function updateNotifSettings() {
+        let buyItemNotif = document.querySelector("#notification1").checked;
+        let lookItemNotif = document.querySelector("#notification2").checked;
+        let suggestedItems = document.querySelector("#notification3").checked;
+        console.log(buyItemNotif, lookItemNotif, suggestedItems);
+        let result = await fetch('/api/changeNotifications', {
+            method: 'POST',
+            body: JSON.stringify({ buyItemNotif: buyItemNotif, lookItemNotif: lookItemNotif, suggestedItems: suggestedItems }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+        result = await result.text();
+        console.log(result)
+        if (result !== "good") {
+            return showError(result)
+        } else {
+            changed = false;
+            showError("Your changes have been successfully reset!");
+        }
+    }
 </script>
 <style>
     .button-38aScr {
@@ -589,5 +593,4 @@
         top: 7px;
         font-size: small;
     }
-
 </style>
