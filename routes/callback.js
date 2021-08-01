@@ -82,6 +82,11 @@ router.get("/github", async (req, res) => {
                 middle: ".",
                 last: "set"
             },
+            phone: "not set",
+            bio: "Biggest achievement in life: signing up at 2handgaming",
+            pfp: "https://www.2handgaming.ga/images/xsmalllogo.png",
+            spent: 0,
+            made: 0,
             reputation: 0,
             succesful_transactions: 0,
             type: "github"
@@ -144,6 +149,11 @@ router.post("/google", async (req, res) => {
                 middle: ".",
                 last: "set"
             },
+            phone: "not set",
+            bio: "Biggest achievement in life: signing up at 2handgaming",
+            pfp: "https://www.2handgaming.ga/images/xsmalllogo.png",
+            spent: 0,
+            made: 0,
             reputation: 0,
             succesful_transactions: 0,
             type: "google"

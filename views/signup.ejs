@@ -61,7 +61,7 @@
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email: email, password: password })
+            body: JSON.stringify({ email: email, password: password, rememberme: localStorage.getItem("rememberme") })
         });
         returnedResult = await returnedResult.text();
         if (returnedResult !== "good") return document.getElementById("errorMessage").innerText = returnedResult;
@@ -95,6 +95,7 @@
         document.getElementById("login__password").type = "password";
     }
     if (localStorage.getItem("rememberme") === "true") document.getElementById("login__remember").checked = true;
+    if (!localStorage.getItem("rememberme")) localStorage.setItem("rememberme", "false")
     function rememberMe() {
         if (!localStorage.getItem("rememberme") || localStorage.getItem("rememberme") === "false") localStorage.setItem("rememberme", "true");
         else localStorage.setItem("rememberme", "false")

@@ -53,6 +53,11 @@ router.get("/:id", async (req, res) => {
                 middle: ".",
                 last: "set"
             },
+            phone: "not set",
+            bio: "Biggest achievement in life: signing up at 2handgaming",
+            pfp: "https://www.2handgaming.ga/images/xsmalllogo.png",
+            spent: 0,
+            made: 0,
             reputation: 0,
             successful_transactions: 0,
             signature: email.options.signature,

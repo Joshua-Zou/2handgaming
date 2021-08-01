@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css" href="/css/settings.css">
+</head>
+
+<body>
+    <%- include("../partials/header.ejs") %>
+        <section class="py-5 my-5" id="container">
+            <div class="container">
+                <h1 class="mb-5 extra-top-margin">Account Settings</h1>
+                <div class="bg-white shadow rounded-lg d-block d-sm-flex">
+                    <div class="profile-tab-nav border-right">
+                        <div class="p-4">
+                            <div class="img-circle text-center mb-3">
+                                <img src="<%-user.pfp%>" alt="public profile picture" class="shadow">
+                                <div onclick="clickbutton('choosefileimage')"
+                                    class="position-relative color-bg-primary rounded-2 color-text-primary px-2 py-1 left-0 bottom-0 ml-2 mb-2 border pointer"
+                                    style="width: 70px; left: 100px; bottom: 20px; background-color: #2D333B; color: whitesmoke;">
+                                    <label style="margin: 0; color: whitesmoke;" class="pointer">
+                                        <svg aria-hidden="true" viewBox="0 0 16 16" version="1.1"
+                                            data-view-component="true" height="16" width="16"
+                                            class="octicon octicon-pencil" style="fill: whitesmoke;">
+                                            <path fill-rule="evenodd"
+                                                d="M11.013 1.427a1.75 1.75 0 012.474 0l1.086 1.086a1.75 1.75 0 010 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 01-.927-.928l.929-3.25a1.75 1.75 0 01.445-.758l8.61-8.61zm1.414 1.06a.25.25 0 00-.354 0L10.811 3.75l1.439 1.44 1.263-1.263a.25.25 0 000-.354l-1.086-1.086zM11.189 6.25L9.75 4.81l-6.286 6.287a.25.25 0 00-.064.108l-.558 1.953 1.953-.558a.249.249 0 00.108-.064l6.286-6.286z">
+                                            </path>
+                                        </svg>
+                                        Edit
+                                    </label>
+                                </div>
+                            </div>
+                            <h4 class="text-center">
+                                <%-user.username%>
+                            </h4>
+                        </div>
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                            aria-orientation="vertical">
+                            <a class="nav-link active" id="profile-tab" data-toggle="pill" href="#profile" role="tab"
+                                aria-controls="profile" aria-selected="true">
+                                <i class="fa fa-home text-center mr-1"></i>
+                                Profile
+                            </a>
+                            <a class="nav-link" id="password-tab" data-toggle="pill" href="#password" role="tab"
+                                aria-controls="password" aria-selected="false">
+                                <i class="fa fa-key text-center mr-1"></i>
+                                Password & Security
+                            </a>
+                            <a class="nav-link" id="notification-tab" data-toggle="pill" href="#notification" role="tab"
+                                aria-controls="notification" aria-selected="false">
+                                <i class="fa fa-bell text-center mr-1"></i>
+                                Notifications
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="profile" role="tabpanel"
+                            aria-labelledby="profile-tab">
+                            <h3 class="mb-4">Profile Settings</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" class="form-control profile" value="<%-user.name.first%>"
+                                            id="firstname">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Middle Name</label>
+                                        <input type="text" class="form-control profile" value="<%-user.name.middle%>"
+                                            id="middlename">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" class="form-control profile" value="<%-user.name.last%>"
+                                            id="lastname">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Phone number</label>
+                                        <input type="text" class="form-control profile" value="<%-user.phone%>"
+                                            id="phone">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input type="text" class="form-control profile" value="<%-user.username%>"
+                                            id="username">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Bio</label>
+                                        <textarea class="form-control profile" rows="4"
+                                            id="bio"><%-user.bio%></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary" onclick="updateProfile();">Update</button>
+                                <button class="btn btn-light" onclick="window.location.reload();">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
+                            <h3 class="mb-4">Password Settings</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Old password</label>
+                                        <br>
+                                        <div class=password-form>
+                                            <input type="password" class="form-control" id="old_password">
+                                            <a class="show-password pointer"
+                                                onclick="if (this.parentElement.children[0].type==='text')this.parentElement.children[0].type='password'; else this.parentElement.children[0].type='text'">Show</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>New password</label>
+                                        <br>
+                                        <div class="password-form">
+                                            <input type="password" class="form-control new_password">
+                                            <a class="show-password pointer"
+                                                onclick="if (this.parentElement.children[0].type==='text')this.parentElement.children[0].type='password'; else this.parentElement.children[0].type='text'">Show</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Confirm new password</label>
+                                        <br>
+                                        <div class="password-form">
+                                            <input type="password" class="form-control new_password">
+                                            <a class="show-password pointer"
+                                                onclick="if (this.parentElement.children[0].type==='text')this.parentElement.children[0].type='password'; else this.parentElement.children[0].type='text'">Show</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary" onclick="updatePassword();">Update</button>
+                                <button class="btn btn-light" onclick="window.location.reload()">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
+                            <h3 class="mb-4">Notification Settings</h3>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <% if (user.notifications.buy===true){ %>
+                                        <input class="form-check-input" type="checkbox" value="" id="notification1"
+                                            checked>
+                                        <% }else{ %>
+                                            <input class="form-check-input" type="checkbox" value="" id="notification1">
+                                            <% } %>
+                                                <label class="form-check-label" for="notification1">
+                                                    I want to get notified when someone buys my item
+                                                </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <% if (user.notifications.view===true){ %>
+                                        <input class="form-check-input" type="checkbox" value="" id="notification2"
+                                            checked>
+                                        <% }else{ %>
+                                            <input class="form-check-input" type="checkbox" value="" id="notification2">
+                                            <% } %>
+                                                <label class="form-check-label" for="notification2">
+                                                    I want to get notified when someone looks at my item
+                                                </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <% if (user.notifications.suggestions===true){ %>
+                                        <input class="form-check-input" type="checkbox" value="" id="notification3"
+                                            checked>
+                                        <% }else{ %>
+                                            <input class="form-check-input" type="checkbox" value="" id="notification3">
+                                            <% } %>
+                                                <label class="form-check-label" for="notification3">
+                                                    I want to get notified about cool things that I might want
+                                                </label>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary" onclick="updateNotifSettings();">Update</button>
+                                <button class="btn btn-light" onclick="window.location.reload();">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="centerY" style="position: absolute; bottom: 0px; left: 50%;">
+                            <div style="background-color: rgb(73, 73, 73); transition: all .3s ease-out; width: 50em; transform: translate(-50%, 0px); border-radius: 15px; padding: 20px; position: fixed; bottom: -150px; "
+                                class="centerY" id="errordiv">
+                                <div class="message-3k2yCR flexChild-faoVW3 centerY" style="color: whitesmoke;"><span
+                                        class="centerY" style="width: fit-content; max-width: 90vw;"
+                                        id="errormessage">An un-caught error occured!</span>
+                                </div>
+                                <div style="flex: 1 1 auto; padding: 10px;"><button
+                                        class="button-38aScr filledGreen-3E574O buttonHeightTall-35JAaW centerY"
+                                        type="submit" style="width: 100px;" onclick="hideError();">
+                                        <div style="flex: 1 1 auto;"><span>Sure</span></div>
+                                    </button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="invisible" class="invisible">
+            <form ref='uploadForm' id='uploadForm' action='/api/changePfp' method='post' encType="multipart/form-data">
+                <input type="file" name="image" id="choosefileimage" onchange="openfilemodal();" />
+                <input type='submit' value='Upload!' id="submitimage" />
+            </form>
+        </section>
+
+
+        <details-dialog
+            class="Box Box--overlay d-flex flex-column anim-fade-in fast hx_rsm-dialog hx_rsm-modal invisible"
+            role="dialog" aria-modal="true" tabindex="-1" id="selectimagemodal">
+            <div class="Box-header">
+            </div>
+            <!-- '"` -->
+            <!-- </textarea></xmp> -->
+
+
+            <div id="showimagemodalhere"></div>
+            <label for="submitimage" class="newpfp centerY"><span class="centerY" style="text-align: center;">Set new
+                    profile picture</span></label>
+
+
+
+        </details-dialog>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+<script>
+    var changed = false;
+
+    async function updatePassword() {
+        let oldPass = document.getElementById("old_password").value;
+        let newPass1 = document.getElementsByClassName("new_password")[0].value;
+        let newPass2 = document.getElementsByClassName("new_password")[1].value;
+        if (newPass1 !== newPass2) {
+            return showError("New passwords do not match!")
+        }
+        let result = await fetch('/api/resetPass', {
+            method: 'POST',
+            body: JSON.stringify({ code: oldPass, password: newPass1, useOldPassword: true, email: '<%-user.email%>' }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+        result = await result.text();
+        console.log(result)
+        if (result !== "good") {
+            return showError(result)
+        } else {
+            changed = false;
+            showError("Password has been reset!");
+        }
+    }
+
+    window.addEventListener("beforeunload", function (e) {
+        if (changed === true) {
+            var confirmationMessage = "\o/";
+
+            (e || window.event).returnValue = confirmationMessage;
+            return confirmationMessage;
+        }
+    });
+    $("input, textarea").on("input", function () {
+        changed = true;
+    })
+    function updateProfile() {
+        showingErr = true;
+        let first = document.getElementById("firstname");
+        let middle = document.getElementById("middlename");
+        let last = document.getElementById("lastname");
+        let phone = document.getElementById("phone");
+        let bio = document.getElementById("bio");
+        let username = document.getElementById("username");
+        if (first.value.replace(/ /g, "").length === 0) return showError("First name must not be blank! (We're pretty sure you have a first name)");
+        else if (last.value.replace(/ /g, "").length === 0) return showError("Last name must not be blank! (We're pretty sure you have one  <small> unless you're from Iceland</small>)");
+        else if (username.value.replace(/ /g, "").length < 5) return showError("Usernames must have 5 or more characters!");
+
+        let body = {
+            first: first.value,
+            middle: middle.value,
+            last: last.value,
+            phone: phone.value,
+            bio: bio.value,
+            username: username.value
+        }
+        fetch("/api/settings", {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }).then(result => result.text()).then(text => {
+            if (text !== "good") return showError(text);
+            else {
+                window.nextreload = true;
+                changed = false;
+                showError("Your settings have been updated!")
+            }
+        })
+        //showError("help me")
+    }
+    var showingErr = false;
+    function showError(text) {
+        showingErr = true;
+        document.getElementById("errormessage").innerHTML = text;
+        document.getElementById("errordiv").style.bottom = "20px";
+        setTimeout(next, 400)
+        function next() {
+            document.getElementById("errordiv").style.bottom = "10px";
+            showingErr = false;
+        }
+    }
+    function hideError() {
+        if (showingErr === true) return;
+        document.getElementById("errordiv").style.bottom = "-150px";
+        document.getElementById("errordiv").style.transition = "all .2s ease-out";
+        setTimeout(next, 400)
+        function next() {
+            document.getElementById("errordiv").style.transition = "all .3s ease-out";
+            if (window.nextreload === true) {
+                delete window.nextreload;
+                window.location.reload();
+            }
+        }
+    }
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split('&');
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split('=');
+            if (decodeURIComponent(pair[0]) == variable) {
+                return decodeURIComponent(pair[1]);
+            }
+        }
+        console.log('Query variable %s not found', variable);
+    }
+    const pages = {
+        profile: "profile-tab",
+        security: "password-tab",
+        notifications: "notification-tab",
+    }
+    let page = getQueryVariable("page");
+    console.log(page)
+    if (pages[page]) {
+        document.getElementById(pages[page]).click()
+    }
+
+    document.getElementById("profile-tab").addEventListener("click", function () {
+        document.body.innerHTML = "";
+        document.body.style.display = "none !important";
+        window.location.href = "?page=profile"
+    })
+    document.getElementById("password-tab").addEventListener("click", function () {
+        document.body.innerHTML = "";
+        document.body.style.display = "none !important";
+        window.location.href = "?page=security"
+    })
+    document.getElementById("notification-tab").addEventListener("click", function () {
+        document.body.innerHTML = "";
+        document.body.style.display = "none !important";
+        window.location.href = "?page=notifications"
+    })
+
+    function openfilemodal() {
+        let input = document.getElementById("choosefileimage");
+        handleFiles(input.files)
+        document.getElementById("selectimagemodal").classList.remove("invisible")
+    }
+    function clickbutton(buttonid) {
+        document.getElementById(buttonid).click();
+    }
+    function handleFiles(files) {
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            if (!file.type.startsWith('image/')) { continue }
+
+            const img = document.createElement("img");
+            img.classList.add("setprofileimage");
+            img.file = file;
+            let preview = document.getElementById("showimagemodalhere")
+            preview.appendChild(img); // Assuming that "preview" is the div output where the content will be displayed.
+
+            const reader = new FileReader();
+            reader.onload = (function (aImg) { return function (e) { aImg.src = e.target.result; }; })(img);
+            reader.readAsDataURL(file);
+        }
+    }
+
+    window.addEventListener('click', function (e) {
+        if (document.getElementById('selectimagemodal').contains(e.target) || document.getElementById('errordiv').contains(e.target)) {
+            // Clicked in box
+        } else {
+            // Clicked outside the box
+            document.getElementById('selectimagemodal').classList.add("invisible");
+            hideError();
+        }
+    });
+
+    async function updateNotifSettings() {
+        let buyItemNotif = document.querySelector("#notification1").checked;
+        let lookItemNotif = document.querySelector("#notification2").checked;
+        let suggestedItems = document.querySelector("#notification3").checked;
+        console.log(buyItemNotif, lookItemNotif, suggestedItems);
+        let result = await fetch('/api/changeNotifications', {
+            method: 'POST',
+            body: JSON.stringify({ buyItemNotif: buyItemNotif, lookItemNotif: lookItemNotif, suggestedItems: suggestedItems }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+        result = await result.text();
+        console.log(result)
+        if (result !== "good") {
+            return showError(result)
+        } else {
+            changed = false;
+            showError("Your changes have been successfully reset!");
+        }
+    }
+</script>
+<style>
+    .button-38aScr {
+        position: relative;
+        display: inline-block;
+        background: none;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        border: none;
+        font-family: Whitney, Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-weight: 400;
+        line-height: 18px;
+        padding: 0 20px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-align: center;
+        -webkit-transition: all .17s ease-out;
+        transition: all .17s ease-out;
+        white-space: nowrap;
+        border-radius: 12px !important;
+    }
+
+
+
+    .buttonHeightTall-35JAaW {
+        padding: 11px 20px
+    }
+
+
+    .unpaired-31HHvP {
+        border-radius: 3px
+    }
+
+    .filledGreen-3E574O {
+        background: hsl(139, 47.3%, 43.9%)
+    }
+
+    .filledGreen-3E574O,
+    .filledRed-S1nf7r {
+        color: #fff
+    }
+
+
+    .Box--overlay {
+        width: 448px;
+        margin-right: auto;
+        margin-left: auto;
+        background-color: var(--color-bg-primary);
+        background-clip: padding-box;
+        border-color: var(--color-border-primary);
+        box-shadow: 0 0 18px rgb(0 0 0 / 40%);
+    }
+
+    [data-catalyst],
+    auto-complete,
+    details-dialog,
+    details-menu,
+    file-attachment,
+    filter-input,
+    include-fragment,
+    poll-include-fragment,
+    remote-input,
+    tab-container,
+    text-expander {
+        display: block;
+    }
+
+    details-dialog {
+        position: fixed;
+        margin: 10vh auto;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 999;
+        max-height: 80vh;
+        max-width: 90vw;
+        width: 448px;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .lh-default {
+        line-height: 1.5 !important;
+    }
+
+    .color-text-primary {
+        color: var(--color-text-primary) !important;
+    }
+
+    style attribute {
+        word-wrap: break-word;
+    }
+
+    .invisible {
+        display: none !important;
+    }
+
+    .setprofileimage {
+        width: 200px;
+        height: 200px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .centerY {
+        display: block !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .newpfp {
+        margin-top: 10px;
+        background-color: #46954a;
+        border-radius: 15px;
+        border: 1px solid #18ab29;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 17px;
+        padding: 9px 76px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #13300e;
+    }
+
+    .newpfp:hover {
+        background-color: #48ab4b;
+    }
+
+    .newpfp:active {
+        position: relative;
+        top: 1px;
+    }
+
+    .password-form {
+        display: -webkit-inline-box;
+    }
+
+    .show-password {
+        color: #d43d3d !important;
+        position: relative;
+        padding-left: 10px;
+        top: 7px;
+        font-size: small;
+    }
+</style>

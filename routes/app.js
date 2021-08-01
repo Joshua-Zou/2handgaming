@@ -5,6 +5,8 @@ const mongoclient = global.mongoclient;
 const fetch = require('node-fetch');
 var fs = require('file-system');
 const db = mongoclient.db("2handgaming");
+router.use("/settings", require("./settings.js"));
+
 router.get("/", (req, res) => {
     res.redirect("/")
 })
@@ -20,11 +22,20 @@ router.get("/dashboard", async (req, res) => {
         req.session = null;
         return res.render("error", {error: "This account does not exist anymore!", errorCode: "500"});
     }
-    if (!user.pfp) db.collection("users").updateOne({id: req.session.user}, {
-        $set:{
-            pfp: "http://res.cloudinary.com/secndhandgaming/image/upload/v1624077787/vyshsrkqmoac1ffi1gvk.png"
-        }
-    })
-    return res.render("dashboard/dashboard.ejs", {user: user})
+    let allListings = await db.collection("listings").find({user: req.session.id});
+    let activeListings = await allListings.count();
+    allListings = await allListings.toArray();
+    var totalViews = 0;
+    for (let i = 0; i<allListings.length; i++){
+        totalViews = totalViews + allListings[i].views
+    }
+    var data = {
+        spent: user.spent,
+        activeListings: activeListings,
+        listingViews: totalViews,
+        made: user.made
+    }
+    return res.render("dashboard/dashboard.ejs", {user: user, data: data})
 })
+
 module.exports = router;

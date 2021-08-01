@@ -1,12 +1,97 @@
 <html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
+</head>
 <body>
   <%- include('../partials/header.ejs') %>
-  <img src="<%-user.pfp%>"></img>
-  <form ref='uploadForm' id='uploadForm' action='/api/changePfp' method='post' encType="multipart/form-data">
-    <input type="file" name="image" />
-    <input type='submit' value='Upload!' />
-  </form>
+
+<br>
+<div class="wrapper container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="heading">Your Stats</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <a class="dashboard-stat red" href="#">
+        <div class="visual">
+          <i class="fa fa-usd"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span>$<%-data.spent%> </span>
+          </div>
+          <div class="desc">Total Amount Spent</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <a class="dashboard-stat blue" href="#">
+        <div class="visual">
+          <i class="fa fa-bar-chart-o"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span><%-data.activeListings%></span>
+          </div>
+          <div class="desc">Active Listings</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <a class="dashboard-stat hoki" href="#">
+        <div class="visual">
+          <i class="fa fa-credit-card"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span><%-data.listingViews%></span>
+          </div>
+          <div class="desc">Listing Views</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <a class="dashboard-stat purple" href="#">
+        <div class="visual">
+          <i class="fa fa-usd"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span>$<%-data.made%></span>
+          </div>
+          <div class="desc">Total Amount Made</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="ratings">
+  <h2>How other users felt about you:</h2> 
+</div>
+<div class="ratings">
+
+<% 
+  for (var x = 0; x< user.rating; x++){
+    %>
+<span class="fas fa-star" style="color: orange"></span>
+    <%
+  }
+  %>
+  <%
+    for (  var i = x; i< 5; i++ ){
+      %>
+      <span class="far fa-star"></span>
+      <%
+    }
+%>
+
+</div>
+<div class="ratings" style="padding-top: 5%;">
+  <span class="selling-activity-columns list-item"><a class="me-fake-button  fake-btn fake-btn--small fake-btn--primary" href="/app/create" type="button">List an item</a> </span>
+</div>
 </body>
 
 </html>
@@ -14,4 +99,131 @@
   #searchbar {
     bottom: -10px
   }
+  body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0px !important;
+  background-color: #141414;
+  color: whitesmoke
+}
+.wrapper {
+  position: relative;
+  display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.heading {
+  margin: 25px 0;
+  font-size: 24px;
+}
+.dashboard-stat {
+  position: relative;
+  display: block;
+  margin: 0 0 25px;
+  overflow: hidden;
+  border-radius: 4px;
+  width: 200px;
+  height: fit-content;
+}
+.dashboard-stat .visual {
+  width: 80px;
+  height: 80px;
+  display: block;
+  float: left;
+  padding-top: 10px;
+  padding-left: 15px;
+  margin-bottom: 15px;
+  font-size: 35px;
+  line-height: 35px;
+}
+.dashboard-stat .visual > i {
+  margin-left: -15px;
+  font-size: 110px;
+  line-height: 110px;
+  color: #fff;
+  opacity: 0.1;
+}
+.dashboard-stat .details {
+  position: absolute;
+  right: 15px;
+  padding-right: 15px;
+  color: #fff;
+}
+.dashboard-stat .details .number {
+  padding-top: 25px;
+  text-align: right;
+  font-size: 34px;
+  line-height: 36px;
+  letter-spacing: -1px;
+  margin-bottom: 0;
+  font-weight: 300;
+}
+.dashboard-stat .details .number .desc {
+  text-transform: capitalize;
+  text-align: right;
+  font-size: 16px;
+  letter-spacing: 0;
+  font-weight: 300;
+}
+.dashboard-stat.blue {
+  background-color: #337ab7;
+}
+.dashboard-stat.red {
+  background-color: #e7505a;
+}
+.dashboard-stat.purple {
+  background-color: #8E44AD;
+}
+.dashboard-stat.hoki {
+  background-color: #67809F;
+}
+.col-lg-3 {
+  display: inline-block;
+}
+.ratings {
+  position: relative;
+  display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+
+button.btn--primary, a.fake-btn--primary {
+    font-weight: bold;
+}
+button.btn--primary, a.fake-btn--primary {
+    background-color: #3665f3;
+    background-color: var(#3665f3);
+    border-color: #3665f3;
+    border-color: var(#3665f3);
+    color: #fff;
+    color: var(#fff);
+}
+button.btn, a.fake-btn {
+    border: 1px solid;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: inherit;
+    margin: 0;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: bottom;
+    border-radius: 0;
+    border-radius: var(0);
+    background-color: transparent;
+    border-color: inherit;
+    color: inherit;
+    display: inline-block;
+    font-size: .875rem;
+    max-width: 100%;
+    min-height: 40px;
+    padding: 9.5px 16px;
+}
+
+a:active, a:link {
+    color: #0654ba;
+    text-decoration: none;
+}
+
 </style>
